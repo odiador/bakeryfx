@@ -200,7 +200,7 @@ public class MenuPrincipalLogicController {
 	}
 
 	public void mostrarInfo() {
-		new Alert(AlertType.INFORMATION, "Laboratorio de Colecciones creado por Juan Manuel Amador y Santiago Quintero")
+		new Alert(AlertType.INFORMATION, "Creado por Juan Manuel Amador y Juan Camilo Albarán")
 				.show();
 	}
 
