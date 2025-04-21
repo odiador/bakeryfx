@@ -10,7 +10,6 @@ import co.edu.uniquindio.estructuras.tienda.services.ICloseableController;
 import co.edu.uniquindio.estructuras.tienda.services.IProductoController;
 import co.edu.uniquindio.estructuras.tienda.utils.Constants;
 import co.edu.uniquindio.estructuras.tienda.utils.FxmlPerspective;
-import co.edu.uniquindio.estructuras.tienda.utils.ImgUtils;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -48,8 +47,8 @@ public class ProductViewLogicController {
 		Platform.runLater(() -> detalleCarritoProperty.setValue(d));
 	}
 
-	public void cargarProductoLabels(Label lblNombre, Label lblPrecio, Label lblStock, BorderPane root, Label lblHover,
-			SVGPath svgHover) {
+	public void cargarProductoLabels(Label lblNombre, Label lblPrecio, Label lblStock, BorderPane root,
+			Label lblHover, SVGPath svgHover) {
 		normalUse = true;
 		lblHover.setText("Agregar al Carrito");
 		svgHover.setContent(Constants.SHOPPING_CARD_CONTENT);
@@ -80,7 +79,8 @@ public class ProductViewLogicController {
 		lblPrecio.setText(String.format("$%.2f C/U", newValue.getProducto().getPrecio()));
 		lblInfo.setText(String.format("%d seleccionados de %d", newValue.getCantSeleccionada(),
 				newValue.getProducto().getCantidad()));
-		root.setCenter(new ImageView(ImgUtils.cropNormal(newValue.getProducto().getImageFX(), 20)));
+		ImageView imageView = buildCroppedRoundedImageView(newValue.getProducto().getImageFX(), 80, 18);
+		root.setCenter(imageView);
 	}
 
 	private void setProductValues(Label lblNombre, Label lblPrecio, Label lblStock, Producto producto,
@@ -88,7 +88,34 @@ public class ProductViewLogicController {
 		lblNombre.setText(producto.getNombre());
 		lblPrecio.setText(String.format("$%.2f C/U", producto.getPrecio()));
 		lblStock.setText(String.format("%d disponibles", producto.getCantidad()));
-		root.setCenter(new ImageView(ImgUtils.cropNormal(producto.getImageFX(), 20)));
+		ImageView imageView = buildCroppedRoundedImageView(producto.getImageFX(), 80, 18);
+		root.setCenter(imageView);
+	}
+
+	/**
+	 * Crea un ImageView cuadrado con esquinas redondeadas para mostrar imágenes de producto.
+	 * @param image Imagen a mostrar
+	 * @param size Tamaño del lado (px)
+	 * @param arc Radio de redondeo de las esquinas (px)
+	 * @return ImageView listo para usar en la UI
+	 */
+	private ImageView buildCroppedRoundedImageView(javafx.scene.image.Image image, double size, double arc) {
+		ImageView imageView = new ImageView(image);
+		// Crop cuadrado centrado
+		double imgW = image.getWidth();
+		double imgH = image.getHeight();
+		double side = Math.min(imgW, imgH);
+		double x = (imgW - side) / 2.0;
+		double y = (imgH - side) / 2.0;
+		imageView.setViewport(new javafx.geometry.Rectangle2D(x, y, side, side));
+		imageView.setFitWidth(size);
+		imageView.setFitHeight(size);
+		imageView.setPreserveRatio(false); // Forzar cuadrado
+		javafx.scene.shape.Rectangle clip = new javafx.scene.shape.Rectangle(size, size);
+		clip.setArcWidth(arc);
+		clip.setArcHeight(arc);
+		imageView.setClip(clip);
+		return imageView;
 	}
 
 	public void unhoverAction(Pane layerAgregar) {

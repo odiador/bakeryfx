@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.shape.Circle?>
 
 <BorderPane style="-fx-background-color: white;" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.AdicionCarritoController">
    <center>
@@ -18,7 +19,11 @@
          <content>
             <VBox spacing="10.0">
                <children>
-                  <ImageView fx:id="imgProducto" fitHeight="150.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgProducto" fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+                     <clip>
+                        <Circle centerX="75" centerY="75" radius="75" />
+                     </clip>
+                  </ImageView>
                   <Label id="textBold" fx:id="lblNombre" text="Panzerotti" />
                   <Label fx:id="lblPrecio" text="\$ 1000.0 C/U" textFill="#a6a6a6" />
                   <Label fx:id="lblStock" text="30 en stock" textFill="#a6a6a6" />

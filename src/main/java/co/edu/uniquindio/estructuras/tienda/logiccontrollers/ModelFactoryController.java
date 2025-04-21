@@ -95,18 +95,20 @@ public class ModelFactoryController {
 		double precioAux = requerirCampoDouble(sb, precio, "El precio no puede estar vacio");
 		lanzarCamposInvalidosException(sb);
 
-		// Obtener la ruta de la imagen (si está disponible)
-		String pathToImage = imagen.getUrl(); // Esto puede ser null si la imagen no tiene URL
-
 		Producto producto = Producto.builder()
 				.codigo(codigo)
 				.nombre(nombre)
 				.precio(precioAux)
 				.cantidad(cantidadAux)
-				.rutaImagen(pathToImage)
 				.build();
+		try {
+			producto.setImagen(imagen.getUrl());
+		} catch (IOException e) {
+			throw new ElementoNuloException("Error al guardar la imagen: " + e.getMessage());
+		}
 
 		DataService.getInstance().agregarProducto(producto);
+
 	}
 
 	public void agregarVenta(@NonNull CarritoCompras carrito, @NonNull Cliente cliente)

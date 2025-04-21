@@ -3,6 +3,11 @@ package co.edu.uniquindio.estructuras.tienda.model;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 import co.edu.uniquindio.estructuras.tienda.services.Imagenable;
 import javafx.scene.image.Image;
@@ -41,12 +46,31 @@ public class Producto implements Comparable<Producto>, Imagenable, Serializable 
 	 * @param archivoImagen El archivo original seleccionado por el usuario.
 	 * @throws IOException Si ocurre un error al copiar el archivo.
 	 */
-	public void setImagen(File archivoImagen) throws IOException {
+	public void setImagen(String rutaImagen) throws IOException {
+		File archivoImagen;
+		if (rutaImagen != null && rutaImagen.startsWith("file:")) {
+			try {
+				archivoImagen = new File(new java.net.URI(rutaImagen.replace("\\", "/")));
+			} catch (Exception e) {
+				throw new IOException("No se pudo convertir la URL de la imagen a archivo local.", e);
+			}
+		} else {
+			archivoImagen = new File(rutaImagen);
+		}
 		String extension = archivoImagen.getName().substring(archivoImagen.getName().lastIndexOf('.'));
-		String nombreDestino = "images/" + java.util.UUID.randomUUID() + extension;
-		java.nio.file.Path destino = java.nio.file.Paths.get(nombreDestino);
-		java.nio.file.Files.copy(archivoImagen.toPath(), destino, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-		this.rutaImagen = nombreDestino;
+		String nombreDestino = "images/" + UUID.randomUUID() + extension;
+		Path destino = Paths.get(nombreDestino);
+		try {
+			Files.createDirectories(destino.getParent());
+			Files.copy(archivoImagen.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
+			this.rutaImagen = nombreDestino;
+		} catch (IOException ex) {
+			throw new IOException(
+				"No se pudo copiar la imagen.\nOrigen: " + archivoImagen.getAbsolutePath() +
+				"\nDestino: " + destino.toAbsolutePath() +
+				"\nCausa: " + ex.getMessage(), ex
+			);
+		}
 	}
 
 	public Image getImagenFX() {

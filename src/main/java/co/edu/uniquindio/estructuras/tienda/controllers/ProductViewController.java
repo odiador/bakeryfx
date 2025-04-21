@@ -25,6 +25,9 @@ public class ProductViewController implements IProductoController, IDetalleCarri
 	private BorderPane layerAgregar, grayLayer, imagePane;
 
 	@FXML
+	private javafx.scene.image.ImageView imgProducto;
+
+	@FXML
 	private StackPane mainRoot;
 
 	@FXML
@@ -62,5 +65,4 @@ public class ProductViewController implements IProductoController, IDetalleCarri
 		logicController.cargarDetailLabels(lblNombre, lblPrecio, lblStock, imagePane, lblHover, svgHover);
 		logicController.setDetalleCarrito(d);
 	}
-
 }

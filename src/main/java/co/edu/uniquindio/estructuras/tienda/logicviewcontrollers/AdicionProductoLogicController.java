@@ -1,10 +1,6 @@
 package co.edu.uniquindio.estructuras.tienda.logicviewcontrollers;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.UUID;
 
 import co.edu.uniquindio.estructuras.tienda.application.TiendaMain;
@@ -29,28 +25,31 @@ public class AdicionProductoLogicController {
 
 	public void agregarAction(String nombre, String precio, String cantidad) {
 		try {
+			if (image == null) {
+				new Alert(AlertType.WARNING, "Debes seleccionar una imagen para el producto.").show();
+				return;
+			}
 			ModelFactoryController.getInstance().agregarProducto(UUID.randomUUID().toString(), nombre.trim(), precio,
 					cantidad, image);
 			new Alert(AlertType.CONFIRMATION, String.format("El producto %s ha sido registrado con éxito", nombre))
-					.show();
+				.show();
 		} catch (Exception e) {
+			e.printStackTrace();
 			new Alert(AlertType.WARNING, e.getMessage()).show();
 		}
 	}
 
 	public void seleccionarImgAction(ImageView imgviewCliente) {
 		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Seleccionar imagen del producto");
+		fileChooser.getExtensionFilters().addAll(
+			new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif")
+		);
 		File selectedFile = fileChooser.showOpenDialog(TiendaMain.getCurrentStage());
 		if (selectedFile != null) {
-			try {
-				InputStream targetStream = new DataInputStream(new FileInputStream(selectedFile));
-				image = new Image(targetStream);
-				imgviewCliente.setImage(image);
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-
+			Image img = new Image(selectedFile.toURI().toString());
+			imgviewCliente.setImage(img);
+			this.image = img;
 		}
 	}
 }
