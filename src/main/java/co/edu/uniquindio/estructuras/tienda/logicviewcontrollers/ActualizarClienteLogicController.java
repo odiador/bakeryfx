@@ -33,8 +33,8 @@ public class ActualizarClienteLogicController {
 		lblIdentificacion.setText(c.getIdentificacion());
 		tfDireccion.setText(c.getDireccion());
 		tfNombre.setText(c.getNombre());
-		this.image = c.getImage();
-		imgviewCliente.setImage(c.getImage());
+		this.image = c.getImageFX();
+		imgviewCliente.setImage(c.getImageFX());
 	}
 
 	public void seleccionarImgAction(ImageView imgviewCliente) {

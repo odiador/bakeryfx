@@ -80,7 +80,7 @@ public class ProductViewLogicController {
 		lblPrecio.setText(String.format("$%.2f C/U", newValue.getProducto().getPrecio()));
 		lblInfo.setText(String.format("%d seleccionados de %d", newValue.getCantSeleccionada(),
 				newValue.getProducto().getCantidad()));
-		root.setCenter(new ImageView(ImgUtils.cropNormal(newValue.getProducto().getImage(0, 80, true, true), 20)));
+		root.setCenter(new ImageView(ImgUtils.cropNormal(newValue.getProducto().getImageFX(), 20)));
 	}
 
 	private void setProductValues(Label lblNombre, Label lblPrecio, Label lblStock, Producto producto,
@@ -88,7 +88,7 @@ public class ProductViewLogicController {
 		lblNombre.setText(producto.getNombre());
 		lblPrecio.setText(String.format("$%.2f C/U", producto.getPrecio()));
 		lblStock.setText(String.format("%d disponibles", producto.getCantidad()));
-		root.setCenter(new ImageView(ImgUtils.cropNormal(producto.getImage(0, 80, true, true), 20)));
+		root.setCenter(new ImageView(ImgUtils.cropNormal(producto.getImageFX(), 20)));
 	}
 
 	public void unhoverAction(Pane layerAgregar) {

@@ -13,7 +13,7 @@ public class SingleClientSelecionLogicController {
 			return;
 		lblIdentificacion.setText(c.getIdentificacion());
 		lblNombre.setText(c.getNombre());
-		Image img = ImgUtils.cropSquareCenter(c.getImage(1024, 1024, true, true));
+		Image img = ImgUtils.cropSquareCenter(c.getImageFX());
 		root.setLeft(ImgUtils.createCircleWImage(img));
 	}
 }

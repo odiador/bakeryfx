@@ -19,7 +19,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class DetalleVenta implements Serializable {
-
 	/**
 	 * 
 	 */

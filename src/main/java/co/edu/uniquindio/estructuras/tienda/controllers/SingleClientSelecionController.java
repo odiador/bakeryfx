@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import co.edu.uniquindio.estructuras.tienda.logicviewcontrollers.SingleClientSelecionLogicController;
 import co.edu.uniquindio.estructuras.tienda.model.Cliente;
 import co.edu.uniquindio.estructuras.tienda.services.IClienteViewDetalle;
-import co.edu.uniquindio.estructuras.tienda.services.ICloseableController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
-public class SingleClientSelecionController implements Initializable, ICloseableController, IClienteViewDetalle {
+public class SingleClientSelecionController implements Initializable, IClienteViewDetalle {
 
 	@FXML
 	private Button btnPrincipal;

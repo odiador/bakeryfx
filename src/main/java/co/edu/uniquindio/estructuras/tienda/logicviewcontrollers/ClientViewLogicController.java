@@ -44,7 +44,7 @@ public class ClientViewLogicController {
 			Platform.runLater(() -> {
 				lblIdentificacion.setText(newValue.getIdentificacion());
 				lblNombre.setText(newValue.getNombre());
-				Image img = ImgUtils.cropSquareCenter(newValue.getImage(1024, 1024, true, true));
+				Image img = ImgUtils.cropSquareCenter(newValue.getImageFX());
 				root.setLeft(ImgUtils.createCircleWImage(img));
 			});
 		}

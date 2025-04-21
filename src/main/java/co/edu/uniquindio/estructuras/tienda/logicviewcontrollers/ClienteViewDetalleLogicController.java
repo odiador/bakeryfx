@@ -82,7 +82,7 @@ public class ClienteViewDetalleLogicController {
 			lblDireccion.setText(newValue.getDireccion());
 			lblIdentificacion.setText(newValue.getIdentificacion());
 			lblNombre.setText(newValue.getNombre());
-			imgCliente.setImage(newValue.getImage());
+			imgCliente.setImage(newValue.getImageFX());
 			tableCarritos.setItems(FXCollections.observableArrayList(newValue.getCarrito()));
 			tableVentas.setItems(FXCollections.observableArrayList(newValue.getLstVentas()));
 		}

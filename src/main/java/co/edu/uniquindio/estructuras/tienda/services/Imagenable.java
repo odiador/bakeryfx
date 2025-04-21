@@ -1,31 +1,28 @@
 package co.edu.uniquindio.estructuras.tienda.services;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 public interface Imagenable {
-	public static byte[] getImageBytes(Image image) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", baos);
-		return baos.toByteArray();
-	}
+    /**
+     * Retorna la ruta local de la imagen asociada a este objeto.
+     */
+    String getRutaImagen();
 
-	public default Image getImage() {
-		ByteArrayInputStream bais = new ByteArrayInputStream(getImgBytes());
-		return new Image(bais);
-	}
-
-	public default Image getImage(double requestedWidth, double requestedHeight, boolean preserveRatio,
-			boolean smooth) {
-		ByteArrayInputStream bais = new ByteArrayInputStream(getImgBytes());
-		return new Image(bais, requestedWidth, requestedHeight, preserveRatio, smooth);
-	}
-
-	byte[] getImgBytes();
+    /**
+     * Devuelve la imagen cargada desde la ruta local.
+     */
+    default Image getImageFX() {
+    String ruta = getRutaImagen();
+    if (ruta != null && new java.io.File(ruta).exists()) {
+        return new Image(new java.io.File(ruta).toURI().toString());
+    }
+    // Intenta cargar la imagen default.png desde el recurso del proyecto
+    try {
+        return new Image(getClass().getResource("/images/default.png").toExternalForm());
+    } catch (Exception e) {
+        // Si no se encuentra el recurso, retorna una imagen vacía para evitar null
+        System.out.println("No se pudo cargar la imagen default.png");
+        return null;
+    }
+}
 }

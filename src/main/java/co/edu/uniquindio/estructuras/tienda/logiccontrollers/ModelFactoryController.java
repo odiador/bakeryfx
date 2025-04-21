@@ -22,7 +22,6 @@ import co.edu.uniquindio.estructuras.tienda.model.DetalleCarrito;
 import co.edu.uniquindio.estructuras.tienda.model.Producto;
 import co.edu.uniquindio.estructuras.tienda.model.Venta;
 import co.edu.uniquindio.estructuras.tienda.services.DataService;
-import co.edu.uniquindio.estructuras.tienda.services.Imagenable;
 import javafx.scene.image.Image;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -61,13 +60,8 @@ public class ModelFactoryController {
 			throw new CampoVacioException("Rellena todos los campos");
 		if (image == null)
 			throw new CampoVacioException("Recuerda seleccionar la imagen");
-		try {
-			Cliente cliente = Cliente.builder().direccion(direccion).identificacion(id).nombre(nombre)
-					.imgBytes(Imagenable.getImageBytes(image)).build();
-			DataService.getInstance().agregarCliente(cliente);
-		} catch (IOException e) {
-			throw new CampoInvalidoException("Recuerda seleccionar la imagen");
-		}
+		Cliente cliente = Cliente.builder().direccion(direccion).identificacion(id).nombre(nombre).build();
+		DataService.getInstance().agregarCliente(cliente);
 
 	}
 
@@ -100,8 +94,18 @@ public class ModelFactoryController {
 		int cantidadAux = requerirCampoInt(sb, cantidad, "La cantidad no puede estar vacia");
 		double precioAux = requerirCampoDouble(sb, precio, "El precio no puede estar vacio");
 		lanzarCamposInvalidosException(sb);
-		Producto producto = Producto.builder().codigo(codigo).nombre(nombre).precio(precioAux).cantidad(cantidadAux)
-				.imgBytes(Imagenable.getImageBytes(imagen)).build();
+
+		// Obtener la ruta de la imagen (si está disponible)
+		String pathToImage = imagen.getUrl(); // Esto puede ser null si la imagen no tiene URL
+
+		Producto producto = Producto.builder()
+				.codigo(codigo)
+				.nombre(nombre)
+				.precio(precioAux)
+				.cantidad(cantidadAux)
+				.rutaImagen(pathToImage)
+				.build();
+
 		DataService.getInstance().agregarProducto(producto);
 	}
 
@@ -257,7 +261,7 @@ public class ModelFactoryController {
 	public void actualizarCliente(String identificacion, String direccion, String nombre, Image image)
 			throws ElementoNuloException, ElementoNoEncontradoException, IOException {
 		actualizarCliente(Cliente.builder().nombre(nombre).identificacion(identificacion).direccion(direccion)
-				.imgBytes(Imagenable.getImageBytes(image)).build());
+				.rutaImagen(image.getUrl()).build());
 	}
 
 }

@@ -10,12 +10,23 @@ import javafx.scene.shape.Circle;
 public class ImgUtils {
 
 	public static Image cropNormal(Image img, double r) {
-		Canvas canvas = new Canvas(img.getWidth(), img.getHeight());
-		GraphicsContext g = canvas.getGraphicsContext2D();
-		g.fillRoundRect(0, 0, img.getWidth(), img.getHeight(), r, r);
-		g.setGlobalBlendMode(BlendMode.SRC_ATOP);
-		g.drawImage(img, 0, 0);
-		return canvas.snapshot(null, null);
+    if (img == null) {
+        // Intenta cargar la imagen default.png desde el recurso del proyecto
+        try {
+            img = new Image(ImgUtils.class.getResource("/images/default.png").toExternalForm());
+        } catch (Exception e) {
+            // Si no se encuentra el recurso, retorna una imagen vacía
+			System.out.println("No se pudo cargar la imagen default.png");
+            img = null; 
+			return null;
+        }
+    }
+    Canvas canvas = new Canvas(img.getWidth(), img.getHeight());
+    GraphicsContext g = canvas.getGraphicsContext2D();
+    g.fillRoundRect(0, 0, img.getWidth(), img.getHeight(), r, r);
+    g.setGlobalBlendMode(BlendMode.SRC_ATOP);
+    g.drawImage(img, 0, 0);
+    return canvas.snapshot(null, null);
 	}
 
 	public static Image cropSquareCenter(Image img) {

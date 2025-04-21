@@ -178,7 +178,7 @@ public class Tienda {
 			throw new ElementoNoEncontradoException("No se ha encontrado el cliente a actualizar");
 		clienteAux.setDireccion(cliente.getDireccion());
 		clienteAux.setNombre(cliente.getNombre());
-		clienteAux.setImgBytes(cliente.getImgBytes());
+		clienteAux.setRutaImagen(cliente.getRutaImagen());
 		mapClientes.put(cliente.getIdentificacion(), clienteAux);
 		return;
 

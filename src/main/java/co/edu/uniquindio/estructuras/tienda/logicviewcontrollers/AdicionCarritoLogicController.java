@@ -73,7 +73,7 @@ public class AdicionCarritoLogicController {
 		lblNombre.setText(p.getNombre());
 		lblPrecio.setText(String.format("$%.2f C/U", p.getPrecio()));
 		lblStock.setText(String.format("%d disponibles", p.getCantidad()));
-		imgProducto.setImage(p.getImage(1000, 0, true, true));
+		imgProducto.setImage(p.getImageFX());
 	}
 
 }
