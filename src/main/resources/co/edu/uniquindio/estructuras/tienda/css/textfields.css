@@ -1,0 +1,13 @@
+/* textfields.css: crea estilos base para los campos de texto y muestra que el archivo existe */
+.text-field, .password-field {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 6 8;
+    -fx-font-size: 14px;
+}
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #0078d7;
+    -fx-background-color: #ffffff;
+}

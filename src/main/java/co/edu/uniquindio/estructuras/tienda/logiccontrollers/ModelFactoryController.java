@@ -20,7 +20,9 @@ import co.edu.uniquindio.estructuras.tienda.model.CarritoCompras;
 import co.edu.uniquindio.estructuras.tienda.model.Cliente;
 import co.edu.uniquindio.estructuras.tienda.model.DetalleCarrito;
 import co.edu.uniquindio.estructuras.tienda.model.Producto;
+import co.edu.uniquindio.estructuras.tienda.model.Rol;
 import co.edu.uniquindio.estructuras.tienda.model.Venta;
+import co.edu.uniquindio.estructuras.tienda.model.Usuario;
 import co.edu.uniquindio.estructuras.tienda.services.DataService;
 import javafx.scene.image.Image;
 import lombok.AccessLevel;
@@ -266,4 +268,26 @@ public class ModelFactoryController {
 				.rutaImagen(image.getUrl()).build());
 	}
 
+	// ==== USUARIO ====
+	public Usuario registrarUsuario(String correo, String nombre, String contrasena, Rol rol, boolean verificado)
+			throws ElementoDuplicadoException, ElementoNuloException {
+		DataService.getInstance().leerUsuarios();
+		Usuario usuario = Usuario.builder()
+				.correo(correo)
+				.nombre(nombre)
+				.contrasena(contrasena)
+				.rol(rol)
+				.verificado(verificado)
+				.build();
+		DataService.getInstance().agregarUsuario(usuario);
+		DataService.getInstance().guardarUsuarios();
+		return usuario;
+
+	}
+
+	public Usuario intentarLoginUsuario(String correo, String contrasena) throws ElementoNoEncontradoException {
+		DataService.getInstance().leerUsuarios();
+		return DataService.getInstance().autenticarUsuario(correo, contrasena);
+
+	}
 }

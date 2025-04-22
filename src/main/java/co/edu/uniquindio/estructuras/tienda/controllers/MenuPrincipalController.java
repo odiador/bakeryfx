@@ -3,17 +3,53 @@ package co.edu.uniquindio.estructuras.tienda.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import co.edu.uniquindio.estructuras.tienda.application.TiendaMain;
 import co.edu.uniquindio.estructuras.tienda.logiccontrollers.ModelFactoryController;
+import co.edu.uniquindio.estructuras.tienda.logiccontrollers.SessionHandler;
 import co.edu.uniquindio.estructuras.tienda.logicviewcontrollers.MenuPrincipalLogicController;
+import co.edu.uniquindio.estructuras.tienda.model.Rol;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.SVGPath;
 
 public class MenuPrincipalController implements Initializable {
+
+	@FXML
+	private Button btnLogout;
+	@FXML
+	private Button btnGestionUsuarios;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		MenuPrincipalLogicController.getInstance().cargarTransicionCargando(svg1, svg2);
+		MenuPrincipalLogicController.getInstance().cargarAnimacionCargando(scrollLoading);
+		MenuPrincipalLogicController.getInstance().cargarMenuCentral(mainLayer);
+		MenuPrincipalLogicController.getInstance().inicializarPerspectivas();
+		MenuPrincipalLogicController.getInstance().inicializarListeners(svgShoppingCard);
+		ModelFactoryController.getInstance().cargarCarrito();
+		// Mostrar botón de gestión solo si el usuario es admin
+		if (btnGestionUsuarios != null) {
+			var usuario = SessionHandler.getInstance().getUsuarioActivo();
+			btnGestionUsuarios.setVisible(usuario != null && usuario.getRol() == Rol.ADMINISTRADOR);
+		}
+	}
+
+	@FXML
+	private void logoutEvent(ActionEvent event) {
+		SessionHandler.getInstance().cerrarSesion();
+		TiendaMain.cambiarAVistaLogin();
+	}
+
+	@FXML
+	private void gestionUsuariosEvent(ActionEvent event) {
+		// Aquí puedes abrir la ventana de gestión de usuarios
+		// Por ejemplo: TiendaMain.cambiarAVistaGestionUsuarios();
+	}
 
 	@FXML
 	private SVGPath svgShoppingCard;
@@ -29,17 +65,6 @@ public class MenuPrincipalController implements Initializable {
 
 	@FXML
 	private ScrollPane scrollLoading;
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		MenuPrincipalLogicController.getInstance().cargarTransicionCargando(svg1, svg2);
-		MenuPrincipalLogicController.getInstance().cargarAnimacionCargando(scrollLoading);
-		MenuPrincipalLogicController.getInstance().cargarMenuCentral(mainLayer);
-		MenuPrincipalLogicController.getInstance().inicializarPerspectivas();
-		MenuPrincipalLogicController.getInstance().inicializarListeners(svgShoppingCard);
-		ModelFactoryController.getInstance().cargarCarrito();
-
-	}
 
 	@FXML
 	void buscarEvent(ActionEvent event) {

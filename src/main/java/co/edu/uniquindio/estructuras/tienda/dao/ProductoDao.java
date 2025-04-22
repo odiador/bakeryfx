@@ -1,33 +1,33 @@
-package co.edu.uniquindio.estructuras.tienda.services;
+package co.edu.uniquindio.estructuras.tienda.dao;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
+import java.util.TreeSet;
 
-import co.edu.uniquindio.estructuras.tienda.model.Cliente;
+import co.edu.uniquindio.estructuras.tienda.model.Producto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class ClienteDao {
+public class ProductoDao {
 
-	public static ClienteDao instance;
+	public static ProductoDao instance;
 	@Getter
-	private static final String RUTA = "src/main/resources/co/edu/uniquindio/estructuras/tienda/data/clientes.dat";
+	private static final String RUTA = "src/main/resources/co/edu/uniquindio/estructuras/tienda/data/productos.dat";
 
-	public static ClienteDao getIntance() {
+	public static ProductoDao getInstance() {
 		if (instance == null)
-			instance = new ClienteDao();
+			instance = new ProductoDao();
 		return instance;
 	}
 
-	public void saveData(HashMap<String, Cliente> clientes) {
+	public void saveData(TreeSet<Producto> productos) {
 
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getRUTA()))) {
-			oos.writeObject(clientes);
+			oos.writeObject(productos);
 			oos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -35,16 +35,16 @@ public class ClienteDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public HashMap<String, Cliente> loadData() {
+	public TreeSet<Producto> loadData() {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(getRUTA()))) {
 			Object objeto = ois.readObject();
 			ois.close();
-			return (HashMap<String, Cliente>) objeto;
+			return (TreeSet<Producto>) objeto;
 
 		} catch (IOException | ClassNotFoundException e) {
-			HashMap<String, Cliente> hashMap = new HashMap<String, Cliente>();
-			saveData(hashMap);
-			return hashMap;
+			TreeSet<Producto> arbol = new TreeSet<Producto>();
+			saveData(arbol);
+			return arbol;
 		}
 	}
 

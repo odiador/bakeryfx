@@ -23,6 +23,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class Tienda {
+	@Builder.Default
+	@NonNull
+	private HashMap<String, Usuario> mapUsuarios = new HashMap<>();
 	@NonNull
 	private String nombre, direccion, nit;
 	@NonNull
@@ -31,6 +34,35 @@ public class Tienda {
 	private LinkedList<Venta> historicoVentas;
 	@NonNull
 	private HashMap<String, Cliente> mapClientes;
+
+	public void agregarUsuario(Usuario usuario) throws ElementoDuplicadoException, ElementoNuloException {
+		if (usuario == null)
+			throw new ElementoNuloException("El usuario es nulo");
+		if (mapUsuarios.containsKey(usuario.getCorreo()))
+			throw new ElementoDuplicadoException("El usuario ya existe");
+		mapUsuarios.put(usuario.getCorreo(), usuario);
+	}
+
+	public Usuario buscarUsuario(String correo) throws ElementoNoEncontradoException {
+		Usuario usuario = mapUsuarios.get(correo);
+		mapUsuarios.entrySet().forEach(entry -> {
+			System.out.println(entry.getKey() + " : " + entry.getValue());
+		});
+		if (usuario == null)
+			throw new ElementoNoEncontradoException("Usuario no encontrado");
+		return usuario;
+	}
+
+	public Usuario autenticarUsuario(String correo, String contrasena) throws ElementoNoEncontradoException {
+		Usuario usuario = buscarUsuario(correo);
+		if (!usuario.getContrasena().equals(contrasena))
+			throw new ElementoNoEncontradoException("Contraseña incorrecta");
+		return usuario;
+	}
+
+	public HashMap<String, Usuario> getMapUsuarios() {
+		return mapUsuarios;
+	}
 
 	public boolean agregarProducto(Producto producto) throws ElementoNuloException {
 		if (producto != null)

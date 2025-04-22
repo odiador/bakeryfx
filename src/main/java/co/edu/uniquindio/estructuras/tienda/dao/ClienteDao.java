@@ -1,33 +1,33 @@
-package co.edu.uniquindio.estructuras.tienda.services;
+package co.edu.uniquindio.estructuras.tienda.dao;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.TreeSet;
+import java.util.HashMap;
 
-import co.edu.uniquindio.estructuras.tienda.model.Producto;
+import co.edu.uniquindio.estructuras.tienda.model.Cliente;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class ProductoDao {
+public class ClienteDao {
 
-	public static ProductoDao instance;
+	public static ClienteDao instance;
 	@Getter
-	private static final String RUTA = "src/main/resources/co/edu/uniquindio/estructuras/tienda/data/productos.dat";
+	private static final String RUTA = "src/main/resources/co/edu/uniquindio/estructuras/tienda/data/clientes.dat";
 
-	public static ProductoDao getInstance() {
+	public static ClienteDao getIntance() {
 		if (instance == null)
-			instance = new ProductoDao();
+			instance = new ClienteDao();
 		return instance;
 	}
 
-	public void saveData(TreeSet<Producto> productos) {
+	public void saveData(HashMap<String, Cliente> clientes) {
 
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getRUTA()))) {
-			oos.writeObject(productos);
+			oos.writeObject(clientes);
 			oos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -35,16 +35,16 @@ public class ProductoDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public TreeSet<Producto> loadData() {
+	public HashMap<String, Cliente> loadData() {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(getRUTA()))) {
 			Object objeto = ois.readObject();
 			ois.close();
-			return (TreeSet<Producto>) objeto;
+			return (HashMap<String, Cliente>) objeto;
 
 		} catch (IOException | ClassNotFoundException e) {
-			TreeSet<Producto> arbol = new TreeSet<Producto>();
-			saveData(arbol);
-			return arbol;
+			HashMap<String, Cliente> hashMap = new HashMap<String, Cliente>();
+			saveData(hashMap);
+			return hashMap;
 		}
 	}
 

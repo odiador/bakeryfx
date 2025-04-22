@@ -16,9 +16,33 @@ import co.edu.uniquindio.estructuras.tienda.model.Cliente;
 import co.edu.uniquindio.estructuras.tienda.model.DetalleCarrito;
 import co.edu.uniquindio.estructuras.tienda.model.Producto;
 import co.edu.uniquindio.estructuras.tienda.model.Tienda;
+import co.edu.uniquindio.estructuras.tienda.model.Usuario;
 import co.edu.uniquindio.estructuras.tienda.model.Venta;
+import co.edu.uniquindio.estructuras.tienda.dao.CarritoDao;
+import co.edu.uniquindio.estructuras.tienda.dao.ClienteDao;
+import co.edu.uniquindio.estructuras.tienda.dao.ProductoDao;
+import co.edu.uniquindio.estructuras.tienda.dao.UsuarioDao;
+import co.edu.uniquindio.estructuras.tienda.dao.VentaDao;
 
 public class DataService {
+
+	public void leerUsuarios() {
+		tienda.setMapUsuarios(UsuarioDao.getInstance().loadData());
+	}
+
+	public void guardarUsuarios() {
+		UsuarioDao.getInstance().saveData(tienda.getMapUsuarios());
+	}
+
+
+	// === USUARIOS ===
+	public void agregarUsuario(Usuario usuario) throws ElementoDuplicadoException, ElementoNuloException {
+		tienda.agregarUsuario(usuario);
+	}
+
+	public Usuario autenticarUsuario(String correo, String contrasena) throws ElementoNoEncontradoException {
+		return tienda.autenticarUsuario(correo, contrasena);
+	}
 
 	private static DataService instance;
 	private Tienda tienda;
@@ -35,7 +59,6 @@ public class DataService {
 
 	public void leerProductos() {
 		tienda.setTreeProductos(ProductoDao.getInstance().loadData());
-		;
 	}
 
 	public void leerHistoricoVentas() {

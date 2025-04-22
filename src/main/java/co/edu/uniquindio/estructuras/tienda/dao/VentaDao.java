@@ -1,4 +1,4 @@
-package co.edu.uniquindio.estructuras.tienda.services;
+package co.edu.uniquindio.estructuras.tienda.dao;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
