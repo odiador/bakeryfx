@@ -174,3 +174,71 @@
 	-fx-border-color: transparent;
 	-fx-font-size: 15;
 }
+
+.combo-box {
+    -fx-min-width: 110px;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #cccccc;
+    -fx-padding: 2 8 2 8;
+    -fx-font-size: 14px;
+    -fx-font-family: 'Segoe UI', sans-serif;
+}
+
+.combo-box:focused {
+    -fx-border-color: #b6b6ff;
+    -fx-background-color: #eef0ff;
+}
+
+.combo-box .list-cell {
+    -fx-font-size: 14px;
+    -fx-font-family: 'Segoe UI', sans-serif;
+}
+
+.check-box {
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-font-size: 14px;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #cccccc;
+}
+
+.check-box .box {
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-background-color: #fff;
+    -fx-border-color: #b6b6ff;
+    -fx-border-width: 2px;
+    -fx-pref-width: 18px;
+    -fx-pref-height: 18px;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #b6b6ff;
+    -fx-border-color: #1a80e6;
+}
+
+.check-box .mark {
+    -fx-shape: "M 4 9 L 8 13 L 14 5";
+    -fx-stroke: #fff;
+    -fx-stroke-width: 2.5px;
+    -fx-background-color: transparent;
+}
+
+
+.check-box:focused {
+    -fx-border-color: #b6b6ff;
+    -fx-background-color: #eef0ff;
+}
+
+.check-box:hover {
+    -fx-background-color: #e6eaed;
+}
+
+.check-box .text {
+    -fx-font-size: 14px;
+    -fx-font-family: 'Segoe UI', sans-serif;
+}

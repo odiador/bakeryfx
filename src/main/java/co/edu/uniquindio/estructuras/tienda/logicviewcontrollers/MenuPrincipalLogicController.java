@@ -92,7 +92,7 @@ public class MenuPrincipalLogicController {
 			timelineCargando.playFromStart();
 			transicionCargando.playFromStart();
 			runnable.run();
-//			hidePane(loadingLayer);
+			// hidePane(loadingLayer);
 			timelineCargando.stop();
 			timelineCargando.setRate(-1);
 			timelineCargando.play();
@@ -260,6 +260,14 @@ public class MenuPrincipalLogicController {
 				e.printStackTrace();
 			}
 		});
+	}
+
+	public void irAPasteles() {
+		try {
+			cambiarPerspectiva(FxmlPerspective.loadPerspective("pastel"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
