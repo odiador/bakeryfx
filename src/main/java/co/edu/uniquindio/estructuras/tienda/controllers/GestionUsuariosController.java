@@ -2,7 +2,8 @@ package co.edu.uniquindio.estructuras.tienda.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import co.edu.uniquindio.estructuras.tienda.exceptions.ElementoDuplicadoException;
+import co.edu.uniquindio.estructuras.tienda.exceptions.ElementoNuloException;
 import co.edu.uniquindio.estructuras.tienda.logiccontrollers.ModelFactoryController;
 import co.edu.uniquindio.estructuras.tienda.model.Rol;
 import co.edu.uniquindio.estructuras.tienda.model.Usuario;
@@ -21,13 +22,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 
 public class GestionUsuariosController implements Initializable {
     @FXML
     private TextField txtNombre, txtCorreo, txtBuscar;
-
     @FXML
-    private ComboBox<String> cmbRol;
+    private ComboBox<Rol> cmbRol;
 
     @FXML
     private Button btnNuevo, btnGuardar, btnEliminar, btnBuscar;
@@ -49,13 +50,24 @@ public class GestionUsuariosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Configurar combo box de roles
-        cmbRol.setItems(FXCollections.observableArrayList("Administrador", "Vendedor", "Cliente", "Invitado"));
+        cmbRol.setItems(FXCollections.observableArrayList(Rol.values()));
+        cmbRol.setConverter(new StringConverter<Rol>() {
+            @Override
+            public String toString(Rol rol) {
+                return rol == null ? "" : rol.getNombre();
+            }
+
+            @Override
+            public Rol fromString(String string) {
+                return string == null ? null : Rol.valueOf(string);
+            }
+        });
 
         // Configurar columnas de la tabla
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
         colRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
-        colVentas.setCellValueFactory(e-> new ReadOnlyStringWrapper(String.valueOf(e.getValue().getVentas().size())));
+        colVentas.setCellValueFactory(e -> new ReadOnlyStringWrapper(String.valueOf(e.getValue().getVentas().size())));
 
         // Cargar usuarios desde persistencia
         listaUsuarios.setAll(ModelFactoryController.getInstance().getUsuarios());
@@ -79,7 +91,7 @@ public class GestionUsuariosController implements Initializable {
         if (usuarioSeleccionado != null) {
             txtNombre.setText(usuarioSeleccionado.getNombre());
             txtCorreo.setText(usuarioSeleccionado.getCorreo());
-            cmbRol.setValue(usuarioSeleccionado.getRol().getNombre());
+            cmbRol.setValue(usuarioSeleccionado.getRol());
             lblEstado.setText("Usuario seleccionado: " + usuarioSeleccionado.getNombre());
         }
     }
@@ -93,10 +105,12 @@ public class GestionUsuariosController implements Initializable {
 
     @FXML
     private void handleGuardar() {
+        // Selección de imagen debe estar disponible antes de crear usuario
+
         try {
             String nombre = txtNombre.getText().trim();
             String correo = txtCorreo.getText().trim();
-            String rol = cmbRol.getValue();
+            Rol rol = cmbRol.getValue();
 
             if (nombre.isEmpty() || correo.isEmpty() || rol == null) {
                 mostrarAlerta("Error", "Todos los campos son obligatorios");
@@ -108,7 +122,7 @@ public class GestionUsuariosController implements Initializable {
                 Usuario nuevoUsuario = Usuario.builder()
                         .nombre(nombre)
                         .contrasena("")
-                        .rol(Rol.valueOf(rol))
+                        .rol(rol)
                         .correo(correo)
                         .build();
                 ModelFactoryController.getInstance().crearUsuario(nuevoUsuario);
@@ -118,7 +132,7 @@ public class GestionUsuariosController implements Initializable {
                 // Actualizar usuario existente
                 usuarioSeleccionado.setNombre(nombre);
                 usuarioSeleccionado.setCorreo(correo);
-                usuarioSeleccionado.setRol(Rol.valueOf(rol));
+                usuarioSeleccionado.setRol(rol);
                 ModelFactoryController.getInstance().actualizarUsuario(usuarioSeleccionado);
                 // Refrescar lista desde persistencia
                 listaUsuarios.setAll(ModelFactoryController.getInstance().getUsuarios());
@@ -129,6 +143,8 @@ public class GestionUsuariosController implements Initializable {
             limpiarFormulario();
         } catch (NumberFormatException e) {
             mostrarAlerta("Error", "La cantidad de ventas debe ser un número entero");
+        } catch (ElementoDuplicadoException | ElementoNuloException e) {
+            mostrarAlerta("Error", e.getMessage());
         }
     }
 

@@ -1,69 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.effect.DropShadow?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="800.0" spacing="30"
-      style="-fx-background-color: #f5f5f5;"
-      xmlns="http://javafx.com/javafx/20"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.DashboardController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="800.0" spacing="30" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.DashboardController">
     <!-- Título del dashboard -->
-    <Label text="Panel de control" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #424242;">
+    <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #424242;" text="Panel de control">
         <VBox.margin>
-            <Insets top="10" bottom="-10"/>
+            <Insets bottom="-10" top="10" />
         </VBox.margin>
     </Label>
 
     <!-- Cards con estadísticas -->
     <HBox alignment="CENTER" spacing="20">
         <padding>
-            <Insets left="40" right="40"/>
+            <Insets left="40" right="40" />
         </padding>
         <children>
-            <VBox fx:id="boxStock" alignment="CENTER" prefHeight="160.0" prefWidth="240.0"
-                  style="-fx-background-color: linear-gradient(to right bottom, #ffffff, #f9f9f9); 
-                         -fx-border-radius: 15; 
-                         -fx-background-radius: 15; 
-                         -fx-padding: 25;">
+            <VBox fx:id="boxStock" alignment="CENTER" prefHeight="160.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right bottom, #ffffff, #f9f9f9);                           -fx-border-radius: 15;                           -fx-background-radius: 15;                           -fx-padding: 25;">
                 <effect>
-                    <DropShadow color="#00000022" radius="10" spread="0.05" offsetY="3"/>
+                    <DropShadow color="#00000022" offsetY="3" radius="10" spread="0.05" />
                 </effect>
                 <children>
-                    <Label text="Stock total" style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #757575;"/>
-                    <Label fx:id="lblStockTotal" text="178" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #3f51b5; -fx-padding: 5 0 0 0;"/>
+                    <Label style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #757575;" text="Stock total" />
+                    <Label fx:id="lblStockTotal" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #3f51b5; -fx-padding: 5 0 0 0;" text="178" textAlignment="CENTER" wrapText="true" />
                 </children>
             </VBox>
-            <VBox fx:id="boxVentas" alignment="CENTER" prefHeight="160.0" prefWidth="240.0"
-                  style="-fx-background-color: linear-gradient(to right bottom, #ffffff, #f9f9f9); 
-                         -fx-border-radius: 15; 
-                         -fx-background-radius: 15; 
-                         -fx-padding: 25;">
+            <VBox fx:id="boxVentas" alignment="CENTER" prefHeight="160.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right bottom, #ffffff, #f9f9f9);                           -fx-border-radius: 15;                           -fx-background-radius: 15;                           -fx-padding: 25;">
                 <effect>
-                    <DropShadow color="#00000022" radius="10" spread="0.05" offsetY="3"/>
+                    <DropShadow color="#00000022" offsetY="3" radius="10" spread="0.05" />
                 </effect>
                 <children>
-                    <Label text="Total ventas" style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #757575;"/>
-                    <Label fx:id="lblTotalVentas" text="\$ 0,00" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #f44336; -fx-padding: 5 0 0 0;"/>
+                    <Label style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #757575;" text="Total ventas" />
+                    <Label fx:id="lblTotalVentas" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #f44336; -fx-padding: 5 0 0 0;" text="\$ 0,00" textAlignment="CENTER" wrapText="true" />
                 </children>
             </VBox>
-            <VBox fx:id="boxUsuarios" alignment="CENTER" prefHeight="160.0" prefWidth="240.0"
-                  style="-fx-background-color: linear-gradient(to right bottom, #ffffff, #f9f9f9); 
-                         -fx-border-radius: 15; 
-                         -fx-background-radius: 15; 
-                         -fx-padding: 25;">
+            <VBox fx:id="boxUsuarios" alignment="CENTER" prefHeight="160.0" prefWidth="240.0" style="-fx-background-color: linear-gradient(to right bottom, #ffffff, #f9f9f9);                           -fx-border-radius: 15;                           -fx-background-radius: 15;                           -fx-padding: 25;">
                 <effect>
-                    <DropShadow color="#00000022" radius="10" spread="0.05" offsetY="3"/>
+                    <DropShadow color="#00000022" offsetY="3" radius="10" spread="0.05" />
                 </effect>
                 <children>
-                    <Label text="Total usuarios" style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #757575;"/>
-                    <Label fx:id="lblUsuarios" text="1" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #ff9800; -fx-padding: 5 0 0 0;"/>
+                    <Label style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #757575;" text="Total usuarios" />
+                    <Label fx:id="lblUsuarios" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #ff9800; -fx-padding: 5 0 0 0;" text="1" />
                 </children>
             </VBox>
         </children>

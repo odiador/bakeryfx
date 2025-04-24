@@ -120,7 +120,12 @@ public class Tienda {
 	private void venderProductoAux(@NonNull Producto producto, int cantVendida)
 			throws ElementoNuloException, ElementoNoEncontradoException {
 		producto.venderCantidad(cantVendida);
-		actualizarProducto(producto);
+		if (producto instanceof Pastel) {
+			System.out.println("Pastel personalizado no encontrado en inventario, permitiendo: "
+					+ producto.getCodigo() + " (" + producto.getNombre() + ")");
+		} else {
+			actualizarProducto(producto);
+		}
 	}
 
 	public boolean eliminarVenta(Venta venta) throws ElementoNoEncontradoException, ElementoNuloException {
@@ -230,13 +235,22 @@ public class Tienda {
 				throw new CarritoNoFuncionaException("El carrito contiene productos que no tienen stock");
 	}
 
-	private boolean verificarDetalle(DetalleCarrito detalle) {
+	public boolean verificarDetalle(DetalleCarrito detalle) {
 		Producto productoBuscar = detalle.getProducto();
 		for (Producto producto : treeProductos) {
 			if (producto.getCodigo().equals(productoBuscar.getCodigo())) {
 				return producto.verificarCantidad(detalle.getCantSeleccionada());
 			}
 		}
+		// Si el producto es un pastel personalizado, permitimos que pase la
+		// verificación
+		if (productoBuscar instanceof Pastel) {
+			System.out.println("Pastel personalizado no encontrado en inventario, permitiendo: "
+					+ productoBuscar.getCodigo() + " (" + productoBuscar.getNombre() + ")");
+			return true;
+		}
+		System.out.println("No se encontró el producto en inventario: " + productoBuscar.getCodigo() + " ("
+				+ productoBuscar.getNombre() + ")");
 		return false;
 	}
 
@@ -253,6 +267,15 @@ public class Tienda {
 				return producto.verificarCantidad(detalle.getCantVendida());
 			}
 		}
+		// Si el producto es un pastel personalizado, permitimos que pase la
+		// verificación
+		if (productoBuscar instanceof Pastel) {
+			System.out.println("Pastel personalizado no encontrado en inventario, permitiendo: "
+					+ productoBuscar.getCodigo() + " (" + productoBuscar.getNombre() + ")");
+			return true;
+		}
+		System.out.println("No se encontró el producto en inventario: " + productoBuscar.getCodigo() + " ("
+				+ productoBuscar.getNombre() + ")");
 		return false;
 	}
 
