@@ -11,7 +11,7 @@
 
 <VBox alignment="CENTER" prefHeight="500.0" prefWidth="800.0" spacing="30"
       style="-fx-background-color: #f5f5f5;"
-      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns="http://javafx.com/javafx/20"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.DashboardController">
     <!-- Título del dashboard -->

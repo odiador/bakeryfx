@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.SVGPath?>
 
-<Button id="nopadding" fx:id="btnPrincipal" contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clientePresionadoEvent" styleClass="boton-cancelar" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.ClientViewController">
+<Button id="nopadding" fx:id="btnPrincipal" contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clientePresionadoEvent" styleClass="boton-cancelar" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.ClientViewController">
    <graphic>
       <BorderPane fx:id="root" prefHeight="80.0">
          <center>

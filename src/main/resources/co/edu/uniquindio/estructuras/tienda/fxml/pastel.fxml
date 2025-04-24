@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
 
-<VBox alignment="CENTER" spacing="8.0" style="-fx-background-color: white;" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.PastelEditorController">
+<VBox alignment="CENTER" spacing="8.0" style="-fx-background-color: white;" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.PastelEditorController">
    <children>
       <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
          <children>

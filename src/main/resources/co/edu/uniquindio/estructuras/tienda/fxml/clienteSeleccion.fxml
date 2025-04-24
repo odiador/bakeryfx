@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<Button id="btn-seleccion" fx:id="btnPrincipal" contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clientePresionadoEvent" prefHeight="80.0" prefWidth="190.0" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.SingleClientSelecionController">
+<Button id="btn-seleccion" fx:id="btnPrincipal" contentDisplay="GRAPHIC_ONLY" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clientePresionadoEvent" prefHeight="80.0" prefWidth="190.0" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.SingleClientSelecionController">
    <graphic>
       <BorderPane fx:id="root" prefHeight="80.0">
          <center>

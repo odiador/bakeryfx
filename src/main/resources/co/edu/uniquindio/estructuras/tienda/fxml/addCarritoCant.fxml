@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.shape.Circle?>
 
-<BorderPane style="-fx-background-color: white;" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.AdicionCarritoController">
+<BorderPane style="-fx-background-color: white;" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.AdicionCarritoController">
    <center>
       <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="invisible">
          <content>

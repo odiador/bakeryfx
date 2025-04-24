@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="516.0" prefWidth="731.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #FFF2E3,#FADADD);" stylesheets="@../css/textfields.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.InicioSesionViewController">
+<BorderPane prefHeight="516.0" prefWidth="731.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #FFF2E3,#FADADD);" stylesheets="@../css/textfields.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.InicioSesionViewController">
    <center>
       <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="350.0" spacing="4.0" style="-fx-padding: 20; -fx-border-radius: 10%; -fx-background-radius: 10%; -fx-background-color: white; -fx-border-color: #000;" BorderPane.alignment="CENTER">
          <children>
