@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class UsuarioDao {
     private static UsuarioDao instance;
-    private final String filePath = "usuarios.dat";
+    private final String filePath = "data/usuarios.dat";
 
     private UsuarioDao() {}
 

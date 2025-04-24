@@ -5,9 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
-import java.util.LinkedList;
-
+import java.util.HashMap;
 import co.edu.uniquindio.estructuras.tienda.model.Venta;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +23,7 @@ public class VentaDao {
 		return instance;
 	}
 
-	public void saveData(LinkedList<Venta> ventas) {
+	public void saveData(HashMap<String, Venta> ventas) {
 
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getRUTA()))) {
 			oos.writeObject(ventas);
@@ -35,16 +33,16 @@ public class VentaDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public LinkedList<Venta> loadData() {
+	public HashMap<String, Venta> loadData() {
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(getRUTA()))) {
 			Object objeto = ois.readObject();
 			ois.close();
-			return (LinkedList<Venta>) objeto;
+			return (HashMap<String, Venta>) objeto;
 
 		} catch (IOException | ClassNotFoundException e) {
-			LinkedList<Venta> lista = new LinkedList<Venta>();
-			saveData(lista);
-			return lista;
+			HashMap<String, Venta> map = new HashMap<String, Venta>();
+			saveData(map);
+			return map;
 		}
 	}
 

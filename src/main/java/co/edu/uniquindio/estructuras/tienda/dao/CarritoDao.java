@@ -10,10 +10,9 @@ import co.edu.uniquindio.estructuras.tienda.model.CarritoCompras;
 import lombok.Getter;
 
 public class CarritoDao {
-
 	private static CarritoDao instance;
 	@Getter
-	private static final String RUTA = "src/main/resources/co/edu/uniquindio/estructuras/tienda/data/carrito.dat";
+	private static final String RUTA = "data/carrito.dat";
 
 	public static CarritoDao getInstance() {
 		if (instance == null) {

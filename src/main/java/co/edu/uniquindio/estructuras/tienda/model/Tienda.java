@@ -1,8 +1,6 @@
 package co.edu.uniquindio.estructuras.tienda.model;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.TreeSet;
 
 import co.edu.uniquindio.estructuras.tienda.exceptions.CarritoNoFuncionaException;
@@ -31,7 +29,7 @@ public class Tienda {
 	@NonNull
 	private TreeSet<Producto> treeProductos;
 	@NonNull
-	private LinkedList<Venta> historicoVentas;
+	private HashMap<String, Venta> mapVentas;
 	@NonNull
 	private HashMap<String, Cliente> mapClientes;
 
@@ -45,9 +43,6 @@ public class Tienda {
 
 	public Usuario buscarUsuario(String correo) throws ElementoNoEncontradoException {
 		Usuario usuario = mapUsuarios.get(correo);
-		mapUsuarios.entrySet().forEach(entry -> {
-			System.out.println(entry.getKey() + " : " + entry.getValue());
-		});
 		if (usuario == null)
 			throw new ElementoNoEncontradoException("Usuario no encontrado");
 		return usuario;
@@ -64,9 +59,18 @@ public class Tienda {
 		return mapUsuarios;
 	}
 
+	public TreeSet<Producto> getTreeProductos() {
+		return treeProductos;
+	}
+
+	public void setTreeProductos(TreeSet<Producto> productos) {
+		this.treeProductos = productos;
+	}
+
 	public boolean agregarProducto(Producto producto) throws ElementoNuloException {
-		if (producto != null)
+		if (producto != null) {
 			return treeProductos.add(producto);
+		}
 		throw new ElementoNuloException("El producto es nulo");
 	}
 
@@ -78,50 +82,39 @@ public class Tienda {
 
 	private boolean eliminarProductoAux(Producto producto) throws ElementoNoEncontradoException {
 		if (!treeProductos.remove(producto))
-			throw new ElementoNoEncontradoException("No se ha encontrado la venta");
+			throw new ElementoNoEncontradoException("No se ha encontrado el producto");
 		return true;
 	}
 
 	public Producto buscarProducto(String codigo) throws ElementoNoEncontradoException {
-		Iterator<Producto> iterador = treeProductos.iterator();
-		while (iterador.hasNext()) {
-			Producto produ = iterador.next();
-			if (produ.getCodigo().equals(codigo))
-				return produ;
+		for (Producto producto : treeProductos) {
+			if (producto.getCodigo().equals(codigo)) {
+				return producto;
+			}
 		}
-		throw new ElementoNoEncontradoException("Producto No Enontrado");
+		throw new ElementoNoEncontradoException("Producto No Encontrado");
 	}
 
 	public void actualizarProducto(Producto producto) throws ElementoNuloException, ElementoNoEncontradoException {
 		if (producto == null)
 			throw new ElementoNuloException("EL producto no existe");
-		actualizarProductoAux(producto);
-	}
-
-	private void actualizarProductoAux(Producto producto) throws ElementoNoEncontradoException {
-		Iterator<Producto> iterador = treeProductos.iterator();
-		while (iterador.hasNext()) {
-			Producto product = iterador.next();
-			if (product.equals(producto)) {
-				treeProductos.remove(product);
-				treeProductos.add(producto);
-				return;
-			}
+		if (!treeProductos.remove(producto)) {
+			throw new ElementoNoEncontradoException("No se ha encontrado el producto a actualizar");
 		}
-		throw new ElementoNoEncontradoException("No se ha encontrado el producto a actualizar");
+		treeProductos.add(producto);
 	}
 
 	public void agregarVenta(Venta venta) throws ElementoNuloException, ElementoDuplicadoException,
 			VentaNoFuncionaException, ElementoNoEncontradoException {
 		if (venta == null)
 			throw new ElementoNuloException("La venta es nula");
-		if (historicoVentas.contains(venta))
-			new ElementoDuplicadoException("La venta ya se encuentra registrada");
+		if (mapVentas.containsKey(venta.getCodigo()))
+			throw new ElementoDuplicadoException("La venta ya se encuentra registrada");
 		verificarVenta(venta);
-		for (DetalleVenta detalleVenta : venta.getLstDetalleVentas())
+		for (DetalleVenta detalleVenta : venta.getLstDetalleVentas()) {
 			venderProductoAux(detalleVenta.getProducto(), detalleVenta.getCantVendida());
-		historicoVentas.add(venta);
-
+		}
+		mapVentas.put(venta.getCodigo(), venta);
 	}
 
 	private void venderProductoAux(@NonNull Producto producto, int cantVendida)
@@ -130,38 +123,33 @@ public class Tienda {
 		actualizarProducto(producto);
 	}
 
-	public boolean eliminarVenta(Venta venta) throws ElementoNuloException, ElementoNoEncontradoException {
-		if (venta != null)
-			return eliminarVentaAux(venta);
-		throw new ElementoNuloException("La venta es nula");
+	public boolean eliminarVenta(Venta venta) throws ElementoNoEncontradoException, ElementoNuloException {
+		if (venta == null)
+			throw new ElementoNuloException("La venta es nula");
+		return eliminarVentaAux(venta);
 	}
 
 	private boolean eliminarVentaAux(Venta venta) throws ElementoNoEncontradoException {
-		if (!historicoVentas.remove(venta))
+		if (mapVentas.remove(venta.getCodigo()) == null)
 			throw new ElementoNoEncontradoException("No se ha encontrado la venta");
 		return true;
 	}
 
 	public Venta buscarVenta(String codigo) throws ElementoNoEncontradoException {
-		Iterator<Venta> iterador = historicoVentas.iterator();
-		while (iterador.hasNext()) {
-			Venta ventaAux = iterador.next();
-			if (ventaAux.getCodigo().equals(codigo)) {
-				return ventaAux;
-			}
-		}
+		Venta venta = mapVentas.get(codigo);
+		if (venta != null)
+			return venta;
 		throw new ElementoNoEncontradoException("No se ha encontrado la venta");
 	}
 
-	public void actualizarVenta(Venta venta) {
-		Iterator<Venta> iterador = historicoVentas.iterator();
-		while (iterador.hasNext()) {
-			Venta ventaAux = iterador.next();
-			if (venta.equals(ventaAux)) {
-				historicoVentas.remove(ventaAux);
-				historicoVentas.add(venta);
-			}
+	public void actualizarVenta(Venta venta) throws ElementoNoEncontradoException {
+		if (venta == null)
+			throw new ElementoNoEncontradoException("La venta es nula");
+		if (mapVentas.containsKey(venta.getCodigo())) {
+			mapVentas.put(venta.getCodigo(), venta);
+			return;
 		}
+		throw new ElementoNoEncontradoException("No se ha encontrado la venta a actualizar");
 	}
 
 	public void agregarCliente(Cliente cliente) throws ElementoNuloException, ElementoDuplicadoException {
@@ -245,7 +233,7 @@ public class Tienda {
 	private boolean verificarDetalle(DetalleCarrito detalle) {
 		Producto productoBuscar = detalle.getProducto();
 		for (Producto producto : treeProductos) {
-			if (producto.equals(productoBuscar)) {
+			if (producto.getCodigo().equals(productoBuscar.getCodigo())) {
 				return producto.verificarCantidad(detalle.getCantSeleccionada());
 			}
 		}
@@ -260,9 +248,11 @@ public class Tienda {
 
 	private boolean verificarDetalleVenta(DetalleVenta detalle) {
 		Producto productoBuscar = detalle.getProducto();
-		for (Producto producto : treeProductos)
-			if (producto.equals(productoBuscar))
+		for (Producto producto : treeProductos) {
+			if (producto.getCodigo().equals(productoBuscar.getCodigo())) {
 				return producto.verificarCantidad(detalle.getCantVendida());
+			}
+		}
 		return false;
 	}
 

@@ -24,6 +24,7 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 public class Venta implements Serializable {
+    private String correoUsuario; // Correo del usuario activo que realiza la venta
 	/**
 	 * 
 	 */
@@ -46,7 +47,7 @@ public class Venta implements Serializable {
 	}
 
 	@Builder
-	public Venta(Cliente cliente, CarritoCompras carrito) {
+	public Venta(Cliente cliente, CarritoCompras carrito, String correoUsuario) {
 		this.codigo = UUID.randomUUID().toString();
 		this.cliente = cliente;
 		this.fechaVenta = LocalDateTime.now();
@@ -54,6 +55,7 @@ public class Venta implements Serializable {
 				.map(detalleCarrito -> DetalleVenta.builder().cantVendida(detalleCarrito.getCantSeleccionada())
 						.producto(detalleCarrito.getProducto()).build())
 				.collect(Collectors.toCollection(ArrayList::new));
+		this.correoUsuario = correoUsuario;
 	}
 
 	public double getTotal() {

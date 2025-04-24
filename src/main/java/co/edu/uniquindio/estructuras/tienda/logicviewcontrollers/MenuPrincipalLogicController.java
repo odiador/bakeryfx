@@ -224,6 +224,14 @@ public class MenuPrincipalLogicController {
 		tfBusqueda.requestFocus();
 	}
 
+	public void mostrarMenuIzq(BorderPane menuLayer) {
+		showPane(menuLayer);
+	}
+
+	public void ocultarMenuIzq(BorderPane menuLayer) {
+		hidePane(menuLayer);
+	}
+
 	public void cancelarAction(BorderPane searchLayer, TextField tfBusqueda) {
 		hidePane(searchLayer);
 		tfBusqueda.setText("");

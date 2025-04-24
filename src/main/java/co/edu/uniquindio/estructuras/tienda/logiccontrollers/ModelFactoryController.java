@@ -152,7 +152,7 @@ public class ModelFactoryController {
 		DataService.getInstance().actualizarCliente(cliente);
 	}
 
-	public void actualizarVenta(Venta venta) {
+	public void actualizarVenta(Venta venta) throws ElementoNoEncontradoException {
 		DataService.getInstance().actualizarVenta(venta);
 	}
 

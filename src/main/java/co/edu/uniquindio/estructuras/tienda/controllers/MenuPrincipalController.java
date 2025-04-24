@@ -49,6 +49,7 @@ public class MenuPrincipalController implements Initializable {
 	private void gestionUsuariosEvent(ActionEvent event) {
 		// Aquí puedes abrir la ventana de gestión de usuarios
 		// Por ejemplo: TiendaMain.cambiarAVistaGestionUsuarios();
+		System.out.println("gestionUsuariosEvent ejecutado");
 	}
 
 	@FXML
@@ -58,7 +59,7 @@ public class MenuPrincipalController implements Initializable {
 	private SVGPath svg1, svg2;
 
 	@FXML
-	private BorderPane loadingLayer, mainLayer, searchLayer;
+	private BorderPane loadingLayer, mainLayer, searchLayer, menuLayer;
 
 	@FXML
 	private TextField tfBusqueda;
@@ -102,6 +103,26 @@ public class MenuPrincipalController implements Initializable {
 	}
 
 	@FXML
+	void pastelesEvent(ActionEvent event) {
+		System.out.println("pastelesEvent ejecutado");
+	}
+
+	@FXML
+	void menuEvent(ActionEvent event) {
+		menuAction();
+	}
+
+	@FXML
+	void cerrarMenuIzqEvent(ActionEvent event) {
+		MenuPrincipalLogicController.getInstance().ocultarMenuIzq(menuLayer);
+	}
+
+	@FXML
+	void editarPerfilEvent(ActionEvent event) {
+		System.out.println("editarPerfilEvent ejecutado");
+	}
+
+	@FXML
 	void cancelarEvent(ActionEvent event) {
 		MenuPrincipalLogicController.getInstance().cancelarAction(searchLayer, tfBusqueda);
 	}
@@ -133,6 +154,11 @@ public class MenuPrincipalController implements Initializable {
 	}
 
 	private void profileAction() {
+		System.out.println("profileAction ejecutado");
+	}
+
+	private void menuAction() {
+		MenuPrincipalLogicController.getInstance().mostrarMenuIzq(menuLayer);
 	}
 
 	private void shoppingCardAction() {

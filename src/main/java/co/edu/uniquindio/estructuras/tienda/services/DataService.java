@@ -34,7 +34,6 @@ public class DataService {
 		UsuarioDao.getInstance().saveData(tienda.getMapUsuarios());
 	}
 
-
 	// === USUARIOS ===
 	public void agregarUsuario(Usuario usuario) throws ElementoDuplicadoException, ElementoNuloException {
 		tienda.agregarUsuario(usuario);
@@ -62,7 +61,8 @@ public class DataService {
 	}
 
 	public void leerHistoricoVentas() {
-		tienda.setHistoricoVentas(VentaDao.getInstance().loadData());
+		HashMap<String, Venta> map = VentaDao.getInstance().loadData();
+		tienda.setMapVentas(map);
 	}
 
 	public void leerMapClientes() {
@@ -80,7 +80,7 @@ public class DataService {
 			VentaNoFuncionaException, ElementoNoEncontradoException {
 		leerHistoricoVentas();
 		tienda.agregarVenta(venta);
-		VentaDao.getInstance().saveData(tienda.getHistoricoVentas());
+		VentaDao.getInstance().saveData(tienda.getMapVentas());
 		ProductoDao.getInstance().saveData(tienda.getTreeProductos());
 	}
 
@@ -99,7 +99,7 @@ public class DataService {
 	public void eliminarVenta(Venta venta) throws ElementoNuloException, ElementoNoEncontradoException {
 		leerHistoricoVentas();
 		tienda.eliminarVenta(venta);
-		VentaDao.getInstance().saveData(tienda.getHistoricoVentas());
+		VentaDao.getInstance().saveData(tienda.getMapVentas());
 	}
 
 	public void eliminarCliente(Cliente cliente) throws ElementoNuloException, ElementoNoEncontradoException {
@@ -114,10 +114,10 @@ public class DataService {
 		ProductoDao.getInstance().saveData(tienda.getTreeProductos());
 	}
 
-	public void actualizarVenta(Venta venta) {
+	public void actualizarVenta(Venta venta) throws ElementoNoEncontradoException {
 		leerHistoricoVentas();
 		tienda.actualizarVenta(venta);
-		VentaDao.getInstance().saveData(tienda.getHistoricoVentas());
+		VentaDao.getInstance().saveData(tienda.getMapVentas());
 	}
 
 	public void actualizarCliente(Cliente cliente) throws ElementoNuloException, ElementoNoEncontradoException {
@@ -147,12 +147,14 @@ public class DataService {
 
 	public TreeSet<Producto> listarProductos() {
 		leerProductos();
+		// Retornar como TreeSet para compatibilidad legacy
 		return tienda.getTreeProductos();
 	}
 
 	public LinkedList<Venta> listarVentas() {
 		leerHistoricoVentas();
-		return tienda.getHistoricoVentas();
+		// Retornar como LinkedList para compatibilidad legacy
+		return new LinkedList<>(tienda.getMapVentas().values());
 	}
 
 	public HashMap<String, Cliente> listarClientes() {

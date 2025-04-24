@@ -16,7 +16,7 @@ public class ProductoDao {
 
 	public static ProductoDao instance;
 	@Getter
-	private static final String RUTA = "src/main/resources/co/edu/uniquindio/estructuras/tienda/data/productos.dat";
+	private static final String RUTA = "data/productos.dat";
 
 	public static ProductoDao getInstance() {
 		if (instance == null)
