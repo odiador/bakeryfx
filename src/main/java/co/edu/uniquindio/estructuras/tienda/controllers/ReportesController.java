@@ -24,6 +24,11 @@ import co.edu.uniquindio.estructuras.tienda.model.Venta;
 
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class ReportesController {
 
     @FXML
@@ -79,14 +84,19 @@ public class ReportesController {
             html = html.replace("<!-- INVENTARIO_ROWS -->", rows.toString());
             html = html.replace("<!-- FECHA_REPORTE -->", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-            // 5. Guardar HTML temporal (opcional)
-            String reportsDir = "src/main/resources/reports";
-            Files.createDirectories(Paths.get(reportsDir));
-            String tempHtml = reportsDir + "/inventario_temp.html";
-            Files.write(Paths.get(tempHtml), html.getBytes(StandardCharsets.UTF_8));
+            // 5. Mostrar FileChooser para guardar el PDF
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar reporte de inventario");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf"));
+            fileChooser.setInitialFileName("inventario_general.pdf");
+            Window window = ((javafx.scene.control.Button) event.getSource()).getScene().getWindow();
+            java.io.File selectedFile = fileChooser.showSaveDialog(window);
+            if (selectedFile == null) {
+                return; // El usuario canceló
+            }
+            String pdfPath = selectedFile.getAbsolutePath();
 
             // 6. Generar PDF desde HTML usando Flying Saucer
-            String pdfPath = reportsDir + "/inventario_general.pdf";
             OutputStream os = Files.newOutputStream(Paths.get(pdfPath));
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(html);
@@ -94,8 +104,12 @@ public class ReportesController {
             renderer.createPDF(os);
             os.close();
 
-            // 7. Notificar éxito
-            System.out.println("Reporte de inventario generado: " + pdfPath);
+            // 7. Notificar éxito con Alert
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Reporte generado");
+            alert.setHeaderText(null);
+            alert.setContentText("¡El reporte de inventario se generó exitosamente!");
+            alert.showAndWait();
         } catch (IOException | com.lowagie.text.DocumentException e) {
             e.printStackTrace();
         }
@@ -138,14 +152,19 @@ public class ReportesController {
             html = html.replace("<!-- VENTAS_ROWS -->", rows.toString());
             html = html.replace("<!-- FECHA_REPORTE -->", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-            // 5. Guardar HTML temporal (opcional)
-            String reportsDir = "src/main/resources/reports";
-            Files.createDirectories(Paths.get(reportsDir));
-            String tempHtml = reportsDir + "/ventas_temp.html";
-            Files.write(Paths.get(tempHtml), html.getBytes(StandardCharsets.UTF_8));
+            // 5. Mostrar FileChooser para guardar el PDF
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar reporte de ventas");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf"));
+            fileChooser.setInitialFileName("ventas_general.pdf");
+            Window window = ((javafx.scene.control.Button) event.getSource()).getScene().getWindow();
+            java.io.File selectedFile = fileChooser.showSaveDialog(window);
+            if (selectedFile == null) {
+                return; // El usuario canceló
+            }
+            String pdfPath = selectedFile.getAbsolutePath();
 
             // 6. Generar PDF desde HTML usando Flying Saucer
-            String pdfPath = reportsDir + "/ventas_general.pdf";
             OutputStream os = Files.newOutputStream(Paths.get(pdfPath));
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(html);
@@ -153,8 +172,12 @@ public class ReportesController {
             renderer.createPDF(os);
             os.close();
 
-            // 7. Notificar éxito
-            System.out.println("Reporte de ventas generado: " + pdfPath);
+            // 7. Notificar éxito con Alert
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Reporte generado");
+            alert.setHeaderText(null);
+            alert.setContentText("¡El reporte de ventas se generó exitosamente!\n\nUbicación: " + pdfPath);
+            alert.showAndWait();
         } catch (IOException | com.lowagie.text.DocumentException e) {
             e.printStackTrace();
         }

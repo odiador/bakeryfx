@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="10.0" stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.ReportesController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+      prefHeight="400.0" prefWidth="600.0" spacing="20.0" 
+      style="-fx-background-color: #f5f7fa;"
+      stylesheets="@../styles/essentialstyle.css" 
+      xmlns="http://javafx.com/javafx/23.0.1" 
+      xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.ReportesController">
+      
+   <padding>
+      <Insets top="30.0" right="40.0" bottom="30.0" left="40.0" />
+   </padding>
+   
    <children>
-      <Button mnemonicParsing="false" onAction="#reporteInventarioEvent" text="Inventario general" />
-      <Button mnemonicParsing="false" onAction="#reporteVentasEvent" text="Ventas" />
+      <!-- Título -->
+      <Label text="Reportes" textFill="#3f51b5">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      
+      <!-- Subtítulo -->
+      <Label text="Seleccione el tipo de reporte que desea generar" textFill="#757575">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </Label>
+      
+      <!-- Botones de reportes -->
+      <Button mnemonicParsing="false" onAction="#reporteInventarioEvent" 
+              text="Inventario general" 
+              style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 25; -fx-background-radius: 5;" 
+              prefWidth="200.0" />
+              
+      <Button mnemonicParsing="false" onAction="#reporteVentasEvent" 
+              text="Ventas" 
+              style="-fx-background-color: #2196f3; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 25; -fx-background-radius: 5;" 
+              prefWidth="200.0" />
+              
+      <!-- Nota informativa -->
+      <HBox alignment="CENTER" style="-fx-background-color: #fff8e1; -fx-background-radius: 5; -fx-padding: 10;">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+         <children>
+            <Label text="Los reportes se generarán en formato PDF" textFill="#ff8f00" />
+         </children>
+      </HBox>
    </children>
 </VBox>

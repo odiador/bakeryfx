@@ -6,6 +6,7 @@ import co.edu.uniquindio.estructuras.tienda.utils.FxmlPerspective;
 import co.edu.uniquindio.estructuras.tienda.application.TiendaMain;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -24,6 +25,12 @@ public class TiendaMain extends Application {
 		stage.setMinWidth(720);
 		stage.setMinHeight(405);
 		stage.setScene(scene);
+		
+		// Establecer el icono de la aplicación
+		Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
+		stage.getIcons().add(icon);
+		stage.setTitle("Delicias de la Abuela");
+		
 		stage.show();
 	}
 
