@@ -179,17 +179,17 @@ public class PastelEditorController implements Initializable {
         comboPisos.valueProperty().addListener((obs, oldVal, newVal) -> {
             actualizarVisibilidadPisos(newVal);
         });
-        // Check de estrellas
-        checkEstrellas1.setOnAction(e -> {
-            actualizarVisibilidadPisos(comboPisos.getValue());
-            svgBigStars.setVisible(checkEstrellas1.isSelected());
-        });
-        checkEstrellas2.setOnAction(e -> {
-            svgMedStars.setVisible(checkEstrellas2.isSelected());
+        // Listeners robustos para los CheckBox de estrellas
+        checkEstrellas1.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            svgBigStars.setVisible(newVal);
             actualizarVisibilidadPisos(comboPisos.getValue());
         });
-        checkEstrellas3.setOnAction(e -> {
-            svgSmallStars.setVisible(checkEstrellas3.isSelected());
+        checkEstrellas2.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            svgMedStars.setVisible(newVal);
+            actualizarVisibilidadPisos(comboPisos.getValue());
+        });
+        checkEstrellas3.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            svgSmallStars.setVisible(newVal);
             actualizarVisibilidadPisos(comboPisos.getValue());
         });
     }
