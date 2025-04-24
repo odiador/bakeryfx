@@ -3,6 +3,11 @@ package co.edu.uniquindio.estructuras.tienda.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import co.edu.uniquindio.estructuras.tienda.logiccontrollers.ModelFactoryController;
+import co.edu.uniquindio.estructuras.tienda.model.CakeColor;
+import co.edu.uniquindio.estructuras.tienda.model.Pastel;
+import co.edu.uniquindio.estructuras.tienda.model.Piso;
+import co.edu.uniquindio.estructuras.tienda.model.StarColor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,10 +23,10 @@ public class PastelEditorController implements Initializable {
     private CheckBox checkEstrellas1, checkEstrellas2, checkEstrellas3;
 
     @FXML
-    private ComboBox<String> colorEstrellas1, colorEstrellas2, colorEstrellas3;
+    private ComboBox<StarColor> colorEstrellas1, colorEstrellas2, colorEstrellas3;
 
     @FXML
-    private ComboBox<String> colorPastel1, colorPastel2, colorPastel3;
+    private ComboBox<CakeColor> colorPastel1, colorPastel2, colorPastel3;
 
     @FXML
     private ComboBox<Integer> comboPisos;
@@ -32,7 +37,48 @@ public class PastelEditorController implements Initializable {
 
     @FXML
     void agregarAlCarritoEvent(ActionEvent event) {
-
+        // Obtener cantidad de pisos
+        int pisosSeleccionados = comboPisos.getValue();
+        Piso[] pisos = new Piso[pisosSeleccionados];
+        for (int i = 0; i < pisosSeleccionados; i++) {
+            CakeColor color = switch (i) {
+                case 0 -> colorPastel1.getValue();
+                case 1 -> colorPastel2.getValue();
+                case 2 -> colorPastel3.getValue();
+                default -> null;
+            };
+            StarColor colorEstrella = null;
+            boolean tieneEstrella = false;
+            switch (i) {
+                case 0 -> {
+                    tieneEstrella = checkEstrellas1.isSelected();
+                    colorEstrella = tieneEstrella ? colorEstrellas1.getValue() : null;
+                }
+                case 1 -> {
+                    tieneEstrella = checkEstrellas2.isSelected();
+                    colorEstrella = tieneEstrella ? colorEstrellas2.getValue() : null;
+                }
+                case 2 -> {
+                    tieneEstrella = checkEstrellas3.isSelected();
+                    colorEstrella = tieneEstrella ? colorEstrellas3.getValue() : null;
+                }
+            }
+            Piso piso = new Piso();
+            piso.setColor(color);
+            piso.setColorEstrella(colorEstrella);
+            // isEstrella() ahora depende de colorEstrella != null
+            pisos[i] = piso;
+        }
+        Pastel pastel = new Pastel(pisos);
+        try {
+            // Por defecto 1 unidad
+            ModelFactoryController.getInstance().agregarDetalleCarrito(1, pastel);
+            // Opcional: mostrar mensaje de éxito
+            System.out.println("Pastel agregado al carrito: " + pastel.getNombre() + " ($" + pastel.getPrecio() + ")");
+        } catch (Exception e) {
+            // Manejo de errores (puedes mostrar un alert en la UI si prefieres)
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -49,73 +95,53 @@ public class PastelEditorController implements Initializable {
         actualizarVisibilidadPisos(3);
         agregarListenersDeshabilitar();
 
-        // Colores bonitos para pasteles (nombre y valor hex)
-        java.util.Map<String, String> pastelColors = new java.util.LinkedHashMap<>();
-        pastelColors.put("Celeste", "#9efcff");
-        pastelColors.put("Rosa", "#ffb6d9");
-        pastelColors.put("Lila", "#c6b6ff");
-        pastelColors.put("Verde menta", "#b6ffd0");
-        pastelColors.put("Durazno", "#ffe4b6");
+        // Colores bonitos para pasteles y estrellas usando enums
+        colorPastel1.getItems().setAll(CakeColor.values());
+        colorPastel2.getItems().setAll(CakeColor.values());
+        colorPastel3.getItems().setAll(CakeColor.values());
+        colorPastel1.setValue(CakeColor.CELESTE);
+        colorPastel2.setValue(CakeColor.ROSA);
+        colorPastel3.setValue(CakeColor.LILA);
 
-        colorPastel1.getItems().setAll(pastelColors.keySet());
-        colorPastel2.getItems().setAll(pastelColors.keySet());
-        colorPastel3.getItems().setAll(pastelColors.keySet());
-        colorPastel1.setValue("Celeste");
-        colorPastel2.setValue("Rosa");
-        colorPastel3.setValue("Lila");
-
-        // Listener para color pastel 1
         colorPastel1.setOnAction(e -> {
-            String hex = pastelColors.get(colorPastel1.getValue());
+            String hex = colorPastel1.getValue().getHex();
             svgBig.setFill(javafx.scene.paint.Paint.valueOf(hex));
             svgBigTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(hex)));
         });
         // Listener para color pastel 2
         colorPastel2.setOnAction(e -> {
-            String hex = pastelColors.get(colorPastel2.getValue());
+            String hex = colorPastel2.getValue().getHex();
             svgMed.setFill(javafx.scene.paint.Paint.valueOf(hex));
             svgMedTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(hex)));
         });
         // Listener para color pastel 3
         colorPastel3.setOnAction(e -> {
-            String hex = pastelColors.get(colorPastel3.getValue());
+            String hex = colorPastel3.getValue().getHex();
             svgSmall.setFill(javafx.scene.paint.Paint.valueOf(hex));
             svgSmallTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(hex)));
         });
         // Inicializa los colores SVG
-        svgBig.setFill(javafx.scene.paint.Paint.valueOf(pastelColors.get(colorPastel1.getValue())));
-        svgBigTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(pastelColors.get(colorPastel1.getValue()))));
-        svgMed.setFill(javafx.scene.paint.Paint.valueOf(pastelColors.get(colorPastel2.getValue())));
-        svgMedTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(pastelColors.get(colorPastel2.getValue()))));
-        svgSmall.setFill(javafx.scene.paint.Paint.valueOf(pastelColors.get(colorPastel3.getValue())));
-        svgSmallTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(pastelColors.get(colorPastel3.getValue()))));
+        svgBig.setFill(javafx.scene.paint.Paint.valueOf(colorPastel1.getValue().getHex()));
+        svgBigTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(colorPastel1.getValue().getHex())));
+        svgMed.setFill(javafx.scene.paint.Paint.valueOf(colorPastel2.getValue().getHex()));
+        svgMedTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(colorPastel2.getValue().getHex())));
+        svgSmall.setFill(javafx.scene.paint.Paint.valueOf(colorPastel3.getValue().getHex()));
+        svgSmallTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(colorPastel3.getValue().getHex())));
 
-        // Colores para estrellas
-        java.util.Map<String, String> starColors = new java.util.LinkedHashMap<>();
-        starColors.put("Amarillo", "#FFFF00");
-        starColors.put("Blanco", "#FFFFFF");
-        starColors.put("Naranja", "#FFD580");
-        starColors.put("Azul", "#9EF6FF");
-        starColors.put("Rosa", "#FFC1E3");
+        colorEstrellas1.getItems().setAll(StarColor.values());
+        colorEstrellas2.getItems().setAll(StarColor.values());
+        colorEstrellas3.getItems().setAll(StarColor.values());
+        colorEstrellas1.setValue(StarColor.AMARILLO);
+        colorEstrellas2.setValue(StarColor.BLANCO);
+        colorEstrellas3.setValue(StarColor.NARANJA);
 
-        colorEstrellas1.getItems().setAll(starColors.keySet());
-        colorEstrellas2.getItems().setAll(starColors.keySet());
-        colorEstrellas3.getItems().setAll(starColors.keySet());
-        colorEstrellas1.setValue("Amarillo");
-        colorEstrellas2.setValue("Amarillo");
-        colorEstrellas3.setValue("Amarillo");
+        colorEstrellas1.setOnAction(e -> svgBigStars.setFill(Paint.valueOf(colorEstrellas1.getValue().getHex())));
+        colorEstrellas2.setOnAction(e -> svgMedStars.setFill(Paint.valueOf(colorEstrellas2.getValue().getHex())));
+        colorEstrellas3.setOnAction(e -> svgSmallStars.setFill(Paint.valueOf(colorEstrellas3.getValue().getHex())));
 
-        colorEstrellas1.setOnAction(
-                e -> svgBigStars.setFill(Paint.valueOf(starColors.get(colorEstrellas1.getValue()))));
-        colorEstrellas2.setOnAction(
-                e -> svgMedStars.setFill(Paint.valueOf(starColors.get(colorEstrellas2.getValue()))));
-        colorEstrellas3.setOnAction(e -> svgSmallStars
-                .setFill(Paint.valueOf(starColors.get(colorEstrellas3.getValue()))));
-
-        // Inicializa colores SVG de estrellas
-        svgBigStars.setFill(Paint.valueOf(starColors.get(colorEstrellas1.getValue())));
-        svgMedStars.setFill(Paint.valueOf(starColors.get(colorEstrellas2.getValue())));
-        svgSmallStars.setFill(Paint.valueOf(starColors.get(colorEstrellas3.getValue())));
+        svgBigStars.setFill(Paint.valueOf(colorEstrellas1.getValue().getHex()));
+        svgMedStars.setFill(Paint.valueOf(colorEstrellas2.getValue().getHex()));
+        svgSmallStars.setFill(Paint.valueOf(colorEstrellas3.getValue().getHex()));
 
         // Listeners para CheckBox de estrellas
         checkEstrellas1.setOnAction(e -> svgBigStars.setVisible(checkEstrellas1.isSelected()));

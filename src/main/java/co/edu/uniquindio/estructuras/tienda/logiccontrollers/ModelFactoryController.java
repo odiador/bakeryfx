@@ -20,6 +20,7 @@ import co.edu.uniquindio.estructuras.tienda.model.CarritoCompras;
 import co.edu.uniquindio.estructuras.tienda.model.Cliente;
 import co.edu.uniquindio.estructuras.tienda.model.DetalleCarrito;
 import co.edu.uniquindio.estructuras.tienda.model.Producto;
+import co.edu.uniquindio.estructuras.tienda.model.ProductoPanaderia;
 import co.edu.uniquindio.estructuras.tienda.model.Rol;
 import co.edu.uniquindio.estructuras.tienda.model.Venta;
 import co.edu.uniquindio.estructuras.tienda.model.Usuario;
@@ -97,7 +98,7 @@ public class ModelFactoryController {
 		double precioAux = requerirCampoDouble(sb, precio, "El precio no puede estar vacio");
 		lanzarCamposInvalidosException(sb);
 
-		Producto producto = Producto.builder()
+		ProductoPanaderia producto = ProductoPanaderia.builder()
 				.codigo(codigo)
 				.nombre(nombre)
 				.precio(precioAux)
