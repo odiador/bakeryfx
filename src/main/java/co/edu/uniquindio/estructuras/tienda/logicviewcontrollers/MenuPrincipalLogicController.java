@@ -208,10 +208,10 @@ public class MenuPrincipalLogicController {
 		mainLayer.setCenter(null);
 	}
 
-	public void irAVentas() {
+	public void irReportes() {
 		ejecutarProceso(() -> {
 			try {
-				cambiarPerspectiva(FxmlPerspective.loadPerspective("tblVentas"));
+				cambiarPerspectiva(FxmlPerspective.loadPerspective("reportes"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

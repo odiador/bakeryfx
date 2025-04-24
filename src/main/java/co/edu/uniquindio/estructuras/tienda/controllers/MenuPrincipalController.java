@@ -166,6 +166,6 @@ public class MenuPrincipalController implements Initializable {
 	}
 
 	private void ventasAction() {
-		MenuPrincipalLogicController.getInstance().irAVentas();
+		MenuPrincipalLogicController.getInstance().irReportes();
 	}
 }
