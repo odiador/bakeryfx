@@ -49,8 +49,8 @@ public class EditarPerfilController {
 
     @FXML
     void saveButtonAction(ActionEvent event) {
-        if (usuarioActual == null || usuarioActual.getRol() != Rol.ADMINISTRADOR) {
-            new Alert(AlertType.ERROR, "Solo el administrador puede modificar la contraseña.").show();
+        if (usuarioActual == null) {
+            new Alert(AlertType.ERROR, "No hay un usuario autenticado.").show();
             return;
         }
         String nueva = newPasswordField.getText();
@@ -67,14 +67,11 @@ public class EditarPerfilController {
         }
         usuarioActual.setContrasena(nueva);
         try {
-            // Persistir el cambio en la base de datos o almacenamiento
             ModelFactoryController.getInstance().actualizarUsuario(usuarioActual);
             passwordErrorLabel.setVisible(false);
             new Alert(AlertType.INFORMATION, "Contraseña actualizada correctamente.").show();
             newPasswordField.clear();
             confirmPasswordField.clear();
-            // Opcional: volver al dashboard
-            // co.edu.uniquindio.estructuras.tienda.logicviewcontrollers.MenuPrincipalLogicController.getInstance().irADashboard();
         } catch (Exception e) {
             new Alert(AlertType.ERROR, "Error al guardar los cambios: " + e.getMessage()).show();
         }
