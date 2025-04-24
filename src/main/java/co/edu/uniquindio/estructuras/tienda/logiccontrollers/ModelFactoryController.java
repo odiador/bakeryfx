@@ -291,4 +291,8 @@ public class ModelFactoryController {
 		return DataService.getInstance().autenticarUsuario(correo, contrasena);
 
 	}
+
+	public List<Usuario> getUsuarios() {
+		return DataService.getInstance().listarUsuarios();
+	}
 }

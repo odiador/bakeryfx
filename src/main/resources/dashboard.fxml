@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.DashboardController"
+      spacing="20" alignment="CENTER" style="-fx-background-color: #f9f9f9;" >
+    <padding>
+        <Insets top="30" left="30" right="30" bottom="30" />
+    </padding>
+
+    <!-- HBox para las cajas de resumen -->
+    <HBox spacing="20" alignment="CENTER">
+        <VBox fx:id="boxStock" alignment="CENTER" spacing="10" style="-fx-background-color: #ffffff; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #d1d1d1, 10, 0.2, 0, 2); -fx-padding: 20 40 20 40;">
+            <Label text="Stock total" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #222;" />
+            <Label fx:id="lblStockTotal" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1976d2;" />
+        </VBox>
+        <!-- Aquí puedes agregar más VBox para otras cajas/resumenes -->
+    </HBox>
+
+    <Button fx:id="btnHome" text="Home" onAction="#homeActionEvent" styleClass="boton-home" />
+</VBox>

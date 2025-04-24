@@ -37,6 +37,8 @@ public class MenuPrincipalController implements Initializable {
 			var usuario = SessionHandler.getInstance().getUsuarioActivo();
 			btnGestionUsuarios.setVisible(usuario != null && usuario.getRol() == Rol.ADMINISTRADOR);
 		}
+		// Mostrar dashboard al iniciar
+		MenuPrincipalLogicController.getInstance().mostrarDashboardInicial();
 	}
 
 	@FXML
@@ -135,6 +137,11 @@ public class MenuPrincipalController implements Initializable {
 	@FXML
 	void buscarClienteEvent(ActionEvent event) {
 		MenuPrincipalLogicController.getInstance().buscarClienteAction(searchLayer, tfBusqueda);
+	}
+
+	@FXML
+	void dashboardActionEvent(ActionEvent event) {
+		MenuPrincipalLogicController.getInstance().irADashboard();
 	}
 
 	private void clientesAction() {
