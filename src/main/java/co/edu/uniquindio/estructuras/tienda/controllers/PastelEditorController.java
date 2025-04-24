@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.SVGPath;
@@ -30,6 +31,9 @@ public class PastelEditorController implements Initializable {
 
     @FXML
     private ComboBox<Integer> comboPisos;
+    
+    @FXML
+    private Label lblPrecio, lblDescripcionPrecio;
 
     @FXML
     private SVGPath svgBig, svgBigStars, svgBigTop, svgMed, svgMedStars, svgMedTop, svgSmall, svgSmallStars,
@@ -37,6 +41,21 @@ public class PastelEditorController implements Initializable {
 
     @FXML
     void agregarAlCarritoEvent(ActionEvent event) {
+        // Crear pastel con la configuración actual
+        Pastel pastel = getPastelActual();
+        try {
+            // Por defecto 1 unidad
+            ModelFactoryController.getInstance().agregarDetalleCarrito(1, pastel);
+            // Opcional: mostrar mensaje de éxito
+            System.out.println("Pastel agregado al carrito: " + pastel.getNombre() + " ($" + pastel.getPrecio() + ")");
+        } catch (Exception e) {
+            // Manejo de errores (puedes mostrar un alert en la UI si prefieres)
+            e.printStackTrace();
+        }
+    }
+    
+    // Método para obtener el pastel actual según las configuraciones de la UI
+    private Pastel getPastelActual() {
         // Obtener cantidad de pisos
         int pisosSeleccionados = comboPisos.getValue();
         Piso[] pisos = new Piso[pisosSeleccionados];
@@ -66,19 +85,47 @@ public class PastelEditorController implements Initializable {
             Piso piso = new Piso();
             piso.setColor(color);
             piso.setColorEstrella(colorEstrella);
-            // isEstrella() ahora depende de colorEstrella != null
             pisos[i] = piso;
         }
-        Pastel pastel = new Pastel(pisos);
-        try {
-            // Por defecto 1 unidad
-            ModelFactoryController.getInstance().agregarDetalleCarrito(1, pastel);
-            // Opcional: mostrar mensaje de éxito
-            System.out.println("Pastel agregado al carrito: " + pastel.getNombre() + " ($" + pastel.getPrecio() + ")");
-        } catch (Exception e) {
-            // Manejo de errores (puedes mostrar un alert en la UI si prefieres)
-            e.printStackTrace();
+        return new Pastel(pisos);
+    }
+    
+    // Método para actualizar la información en tiempo real
+    private void actualizarInformacionPastel() {
+        Pastel pastelActual = getPastelActual();
+        lblPrecio.setText(String.format("$%.0f", pastelActual.getPrecio()));
+        
+        // Actualizar la descripción del pastel
+        StringBuilder descripcion = new StringBuilder();
+        descripcion.append("Pastel de ");
+        descripcion.append(pastelActual.getPisos().length);
+        descripcion.append(" piso");
+        if (pastelActual.getPisos().length > 1) {
+            descripcion.append("s");
         }
+        
+        // Contar estrellas
+        int contadorEstrellas = 0;
+        for (Piso piso : pastelActual.getPisos()) {
+            if (piso.isEstrella()) {
+                contadorEstrellas++;
+            }
+        }
+        
+        if (contadorEstrellas > 0) {
+            descripcion.append(" con ");
+            descripcion.append(contadorEstrellas);
+            descripcion.append(" decoración");
+            if (contadorEstrellas > 1) {
+                descripcion.append("es");
+            }
+            descripcion.append(" de estrella");
+            if (contadorEstrellas > 1) {
+                descripcion.append("s");
+            }
+        }
+        
+        lblDescripcionPrecio.setText(descripcion.toString());
     }
 
     @Override
@@ -91,11 +138,14 @@ public class PastelEditorController implements Initializable {
         // Listeners para cantidad de pisos
         comboPisos.valueProperty().addListener((obs, oldVal, newVal) -> {
             actualizarVisibilidadPisos((Integer) newVal);
+            actualizarInformacionPastel();
         });
+        
+        // Inicializar colores y visibilidad
         actualizarVisibilidadPisos(3);
         agregarListenersDeshabilitar();
 
-        // Colores bonitos para pasteles y estrellas usando enums
+        // Colores bonitos para pasteles usando enums
         colorPastel1.getItems().setAll(CakeColor.values());
         colorPastel2.getItems().setAll(CakeColor.values());
         colorPastel3.getItems().setAll(CakeColor.values());
@@ -103,23 +153,28 @@ public class PastelEditorController implements Initializable {
         colorPastel2.setValue(CakeColor.ROSA);
         colorPastel3.setValue(CakeColor.LILA);
 
+        // Listeners para colores de pasteles con actualización en tiempo real
         colorPastel1.setOnAction(e -> {
             String hex = colorPastel1.getValue().getHex();
             svgBig.setFill(javafx.scene.paint.Paint.valueOf(hex));
             svgBigTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(hex)));
+            actualizarInformacionPastel();
         });
-        // Listener para color pastel 2
+        
         colorPastel2.setOnAction(e -> {
             String hex = colorPastel2.getValue().getHex();
             svgMed.setFill(javafx.scene.paint.Paint.valueOf(hex));
             svgMedTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(hex)));
+            actualizarInformacionPastel();
         });
-        // Listener para color pastel 3
+        
         colorPastel3.setOnAction(e -> {
             String hex = colorPastel3.getValue().getHex();
             svgSmall.setFill(javafx.scene.paint.Paint.valueOf(hex));
             svgSmallTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(hex)));
+            actualizarInformacionPastel();
         });
+        
         // Inicializa los colores SVG
         svgBig.setFill(javafx.scene.paint.Paint.valueOf(colorPastel1.getValue().getHex()));
         svgBigTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(colorPastel1.getValue().getHex())));
@@ -128,6 +183,7 @@ public class PastelEditorController implements Initializable {
         svgSmall.setFill(javafx.scene.paint.Paint.valueOf(colorPastel3.getValue().getHex()));
         svgSmallTop.setFill(javafx.scene.paint.Paint.valueOf(getTopColor(colorPastel3.getValue().getHex())));
 
+        // Inicializar colores de estrellas
         colorEstrellas1.getItems().setAll(StarColor.values());
         colorEstrellas2.getItems().setAll(StarColor.values());
         colorEstrellas3.getItems().setAll(StarColor.values());
@@ -135,23 +191,53 @@ public class PastelEditorController implements Initializable {
         colorEstrellas2.setValue(StarColor.BLANCO);
         colorEstrellas3.setValue(StarColor.NARANJA);
 
-        colorEstrellas1.setOnAction(e -> svgBigStars.setFill(Paint.valueOf(colorEstrellas1.getValue().getHex())));
-        colorEstrellas2.setOnAction(e -> svgMedStars.setFill(Paint.valueOf(colorEstrellas2.getValue().getHex())));
-        colorEstrellas3.setOnAction(e -> svgSmallStars.setFill(Paint.valueOf(colorEstrellas3.getValue().getHex())));
+        // Listeners para colores de estrellas con actualización en tiempo real
+        colorEstrellas1.setOnAction(e -> {
+            svgBigStars.setFill(Paint.valueOf(colorEstrellas1.getValue().getHex()));
+            actualizarInformacionPastel();
+        });
+        
+        colorEstrellas2.setOnAction(e -> {
+            svgMedStars.setFill(Paint.valueOf(colorEstrellas2.getValue().getHex()));
+            actualizarInformacionPastel();
+        });
+        
+        colorEstrellas3.setOnAction(e -> {
+            svgSmallStars.setFill(Paint.valueOf(colorEstrellas3.getValue().getHex()));
+            actualizarInformacionPastel();
+        });
 
+        // Establecer colores iniciales de estrellas
         svgBigStars.setFill(Paint.valueOf(colorEstrellas1.getValue().getHex()));
         svgMedStars.setFill(Paint.valueOf(colorEstrellas2.getValue().getHex()));
         svgSmallStars.setFill(Paint.valueOf(colorEstrellas3.getValue().getHex()));
 
-        // Listeners para CheckBox de estrellas
-        checkEstrellas1.setOnAction(e -> svgBigStars.setVisible(checkEstrellas1.isSelected()));
-        checkEstrellas2.setOnAction(e -> svgMedStars.setVisible(checkEstrellas2.isSelected()));
-        checkEstrellas3.setOnAction(e -> svgSmallStars.setVisible(checkEstrellas3.isSelected()));
+        // Listeners para CheckBox de estrellas con actualización en tiempo real
+        checkEstrellas1.setOnAction(e -> {
+            svgBigStars.setVisible(checkEstrellas1.isSelected());
+            colorEstrellas1.setDisable(!checkEstrellas1.isSelected());
+            actualizarInformacionPastel();
+        });
+        
+        checkEstrellas2.setOnAction(e -> {
+            svgMedStars.setVisible(checkEstrellas2.isSelected());
+            colorEstrellas2.setDisable(!checkEstrellas2.isSelected());
+            actualizarInformacionPastel();
+        });
+        
+        checkEstrellas3.setOnAction(e -> {
+            svgSmallStars.setVisible(checkEstrellas3.isSelected());
+            colorEstrellas3.setDisable(!checkEstrellas3.isSelected());
+            actualizarInformacionPastel();
+        });
 
         // Inicializar visibilidad por defecto
         svgBigStars.setVisible(checkEstrellas1.isSelected());
         svgMedStars.setVisible(checkEstrellas2.isSelected());
         svgSmallStars.setVisible(checkEstrellas3.isSelected());
+        
+        // Inicializar la información del pastel al cargar la pantalla
+        actualizarInformacionPastel();
     }
 
     /**
@@ -201,23 +287,23 @@ public class PastelEditorController implements Initializable {
     }
 
     private void agregarListenersDeshabilitar() {
-        // ComboBox de pisos
-        comboPisos.valueProperty().addListener((obs, oldVal, newVal) -> {
-            actualizarVisibilidadPisos(newVal);
-        });
-        // Listeners robustos para los CheckBox de estrellas
+        // Listeners para los CheckBox de estrellas
         checkEstrellas1.selectedProperty().addListener((obs, oldVal, newVal) -> {
             svgBigStars.setVisible(newVal);
-            actualizarVisibilidadPisos(comboPisos.getValue());
+            colorEstrellas1.setDisable(!newVal);
+            actualizarInformacionPastel();
         });
+        
         checkEstrellas2.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            svgMedStars.setVisible(newVal);
-            actualizarVisibilidadPisos(comboPisos.getValue());
+            svgMedStars.setVisible(newVal && comboPisos.getValue() >= 2);
+            colorEstrellas2.setDisable(!newVal || comboPisos.getValue() < 2);
+            actualizarInformacionPastel();
         });
+        
         checkEstrellas3.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            svgSmallStars.setVisible(newVal);
-            actualizarVisibilidadPisos(comboPisos.getValue());
+            svgSmallStars.setVisible(newVal && comboPisos.getValue() == 3);
+            colorEstrellas3.setDisable(!newVal || comboPisos.getValue() < 3);
+            actualizarInformacionPastel();
         });
     }
-
 }
