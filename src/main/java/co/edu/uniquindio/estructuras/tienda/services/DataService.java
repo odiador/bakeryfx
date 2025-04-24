@@ -46,6 +46,10 @@ public class DataService {
 	private static DataService instance;
 	private Tienda tienda;
 
+	public Tienda getTienda() {
+		return tienda;
+	}
+
 	public static DataService getInstance() {
 		if (instance == null)
 			return instance = new DataService();

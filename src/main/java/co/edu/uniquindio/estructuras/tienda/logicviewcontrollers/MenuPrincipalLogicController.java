@@ -297,4 +297,12 @@ public class MenuPrincipalLogicController {
 			e.printStackTrace();
 		}
 	}
+
+    public void irAGestionUsuarios() {
+		try {
+			cambiarPerspectiva(FxmlPerspective.loadPerspective("gestionUsuarios"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

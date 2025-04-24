@@ -8,6 +8,7 @@ import co.edu.uniquindio.estructuras.tienda.logiccontrollers.ModelFactoryControl
 import co.edu.uniquindio.estructuras.tienda.logiccontrollers.SessionHandler;
 import co.edu.uniquindio.estructuras.tienda.logicviewcontrollers.MenuPrincipalLogicController;
 import co.edu.uniquindio.estructuras.tienda.model.Rol;
+import co.edu.uniquindio.estructuras.tienda.model.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,9 +21,7 @@ import javafx.scene.shape.SVGPath;
 public class MenuPrincipalController implements Initializable {
 
 	@FXML
-	private Button btnLogout;
-	@FXML
-	private Button btnGestionUsuarios;
+	private Button btnLogout, btnGestionarUsuarios, btnGenerarReportes;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -33,9 +32,11 @@ public class MenuPrincipalController implements Initializable {
 		MenuPrincipalLogicController.getInstance().inicializarListeners(svgShoppingCard);
 		ModelFactoryController.getInstance().cargarCarrito();
 		// Mostrar botón de gestión solo si el usuario es admin
-		if (btnGestionUsuarios != null) {
-			var usuario = SessionHandler.getInstance().getUsuarioActivo();
-			btnGestionUsuarios.setVisible(usuario != null && usuario.getRol() == Rol.ADMINISTRADOR);
+		Usuario usuario = SessionHandler.getInstance().getUsuarioActivo();
+		if (usuario != null) {
+			btnGestionarUsuarios.setVisible(usuario.getRol() == Rol.ADMINISTRADOR);
+			btnGenerarReportes.setVisible(usuario.getRol() == Rol.ADMINISTRADOR);
+
 		}
 		// Mostrar dashboard al iniciar
 		MenuPrincipalLogicController.getInstance().mostrarDashboardInicial();
@@ -49,9 +50,7 @@ public class MenuPrincipalController implements Initializable {
 
 	@FXML
 	private void gestionUsuariosEvent(ActionEvent event) {
-		// Aquí puedes abrir la ventana de gestión de usuarios
-		// Por ejemplo: TiendaMain.cambiarAVistaGestionUsuarios();
-		System.out.println("gestionUsuariosEvent ejecutado");
+		MenuPrincipalLogicController.getInstance().irAGestionUsuarios();
 	}
 
 	@FXML

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
 
-<StackPane stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.MenuPrincipalController">
+<StackPane stylesheets="@../styles/essentialstyle.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.MenuPrincipalController">
    <children>
       <BorderPane fx:id="mainLayer" prefHeight="492.0" prefWidth="695.0" style="-fx-background-color: white;">
          <top>
@@ -140,10 +140,10 @@
                               <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                            </padding>
                         </VBox>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#gestionUsuariosEvent" text="Gestionar Usuarios" />
                         <Button id="w-full" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#editarPerfilEvent" text="Editar Perfil" />
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ventasEvent" text="Generar reportes" />
                         <Button layoutX="10.0" layoutY="63.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#helpEvent" text="Más Información" />
+                        <Button fx:id="btnGenerarReportes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ventasEvent" text="Generar reportes" />
+                        <Button fx:id="btnGestionarUsuarios" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#gestionUsuariosEvent" text="Gestionar Usuarios" />
                      </children>
                   </VBox>
                </center>

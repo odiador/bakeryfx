@@ -283,13 +283,54 @@ public class ModelFactoryController {
 		DataService.getInstance().agregarUsuario(usuario);
 		DataService.getInstance().guardarUsuarios();
 		return usuario;
-
 	}
+
+	/**
+	 * Crea un nuevo usuario en el sistema y lo persiste.
+	 * 
+	 * @param usuario El usuario a crear
+	 */
+	public void crearUsuario(Usuario usuario) {
+		try {
+			DataService.getInstance().leerUsuarios();
+			DataService.getInstance().agregarUsuario(usuario);
+			DataService.getInstance().guardarUsuarios();
+		} catch (Exception e) {
+			// Manejo básico, puedes personalizar según tus necesidades
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Actualiza un usuario existente y guarda los cambios en persistencia.
+	 * 
+	 * @param usuario El usuario actualizado
+	 */
+	public void actualizarUsuario(Usuario usuario) {
+		DataService.getInstance().leerUsuarios();
+		HashMap<String, Usuario> usuarios = DataService.getInstance().listarUsuarios().stream()
+				.collect(java.util.stream.Collectors.toMap(Usuario::getCorreo, u -> u, (a, b) -> b, HashMap::new));
+		usuarios.put(usuario.getCorreo(), usuario);
+		DataService.getInstance().getTienda().setMapUsuarios(usuarios);
+		DataService.getInstance().guardarUsuarios();
+	}
+
+	/**
+	 * Elimina un usuario por correo y guarda los cambios.
+	 */
+	public void eliminarUsuario(String correo) {
+		DataService.getInstance().leerUsuarios();
+		HashMap<String, Usuario> usuarios = DataService.getInstance().listarUsuarios().stream()
+				.collect(java.util.stream.Collectors.toMap(Usuario::getCorreo, u -> u, (a, b) -> b, HashMap::new));
+		usuarios.remove(correo);
+		DataService.getInstance().getTienda().setMapUsuarios(usuarios);
+		DataService.getInstance().guardarUsuarios();
+	}
+
 
 	public Usuario intentarLoginUsuario(String correo, String contrasena) throws ElementoNoEncontradoException {
 		DataService.getInstance().leerUsuarios();
 		return DataService.getInstance().autenticarUsuario(correo, contrasena);
-
 	}
 
 	public List<Usuario> getUsuarios() {
