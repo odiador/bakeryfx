@@ -162,6 +162,11 @@ public class DataService {
 		return tienda.getMapClientes();
 	}
 
+	public java.util.List<Usuario> listarUsuarios() {
+		leerUsuarios();
+		return new java.util.ArrayList<>(tienda.getMapUsuarios().values());
+	}
+
 	public CarritoCompras leerCarrito() {
 		return CarritoDao.getInstance().loadData();
 	}

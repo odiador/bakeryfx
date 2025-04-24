@@ -102,6 +102,29 @@
     -fx-min-width: 90;
 }
 
+.boton-home {
+    -fx-background-color: null;
+    -fx-background-radius: 12;
+    -fx-padding: 10 15 10 15;
+    -fx-text-fill: black;
+    -fx-border-color: null;
+    -fx-min-width: 150;
+}
+
+.boton-home .text {
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.boton-home:hover {
+    -fx-background-color: #f1f4f5;
+}
+
+.boton-home:pressed {
+    -fx-background-color: #e6eaed;
+}
+
 .boton-principal .text {
     -fx-font-family: "Arial";
     -fx-font-weight: bold;

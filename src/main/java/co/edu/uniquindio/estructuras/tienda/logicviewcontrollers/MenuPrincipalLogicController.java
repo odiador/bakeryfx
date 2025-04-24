@@ -262,4 +262,31 @@ public class MenuPrincipalLogicController {
 		});
 	}
 
+	public void irAHome() {
+		ejecutarProceso(() -> {
+			try {
+				cambiarPerspectiva(FxmlPerspective.loadPerspective("menuprincipal"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	public void irADashboard() {
+		ejecutarProceso(() -> {
+			try {
+				cambiarPerspectiva(FxmlPerspective.loadPerspective("dashboard"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	public void mostrarDashboardInicial() {
+		try {
+			cambiarPerspectiva(FxmlPerspective.loadPerspective("dashboard"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
