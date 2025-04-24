@@ -290,6 +290,16 @@ public class MenuPrincipalLogicController {
 		});
 	}
 
+	public void irAEditarPerfil(){
+		ejecutarProceso(() -> {
+			try {
+				cambiarPerspectiva(FxmlPerspective.loadPerspective("editarPerfil"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
 	public void mostrarDashboardInicial() {
 		try {
 			cambiarPerspectiva(FxmlPerspective.loadPerspective("dashboard"));

@@ -120,7 +120,7 @@ public class MenuPrincipalController implements Initializable {
 
 	@FXML
 	void editarPerfilEvent(ActionEvent event) {
-		System.out.println("editarPerfilEvent ejecutado");
+		MenuPrincipalLogicController.getInstance().irAEditarPerfil();
 	}
 
 	@FXML

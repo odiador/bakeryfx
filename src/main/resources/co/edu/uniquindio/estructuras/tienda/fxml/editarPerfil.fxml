@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" spacing="15.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.estructuras.tienda.controllers.EditarPerfilController">
+    <padding>
+        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+    </padding>
+    <children>
+        <Label text="Editar Perfil" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Separator prefWidth="200.0" />
+        <VBox alignment="CENTER_LEFT" spacing="10.0">
+            <padding>
+                <Insets bottom="10.0" left="0.0" right="0.0" top="10.0" />
+            </padding>
+            <children>
+                <Label text="Información de Usuario" textAlignment="LEFT">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label prefWidth="100.0" text="Nombre:">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="nameLabel" text="Nombre del Usuario">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label prefWidth="100.0" text="Correo:">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="emailLabel" text="correo@ejemplo.com">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        <Separator prefWidth="200.0" />
+        <VBox alignment="CENTER_LEFT" spacing="15.0">
+            <padding>
+                <Insets bottom="10.0" left="0.0" right="0.0" top="10.0" />
+            </padding>
+            <children>
+                <Label text="Cambiar Contraseña" textAlignment="LEFT">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label prefWidth="160.0" text="Nueva Contraseña:">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <PasswordField fx:id="newPasswordField" prefWidth="250.0" promptText="Ingrese nueva contraseña" style="-fx-border-color: black;" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label prefWidth="160.0" text="Confirmar Contraseña:">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <PasswordField fx:id="confirmPasswordField" prefWidth="250.0" promptText="Confirme nueva contraseña" style="-fx-border-color: black;" />
+                    </children>
+                </HBox>
+                <Label fx:id="passwordErrorLabel" text="Las contraseñas no coinciden" textFill="RED" visible="false">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <HBox alignment="CENTER" spacing="20.0">
+            <padding>
+                <Insets bottom="0.0" left="0.0" right="0.0" top="20.0" />
+            </padding>
+            <children>
+                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonAction" prefWidth="120.0" text="Cancelar" />
+                <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#saveButtonAction" prefHeight="36.0" prefWidth="138.0" style="-fx-background-color: #4285f4;" text="Guardar Cambios" textFill="WHITE" />
+            </children>
+        </HBox>
+    </children>
+</VBox>
