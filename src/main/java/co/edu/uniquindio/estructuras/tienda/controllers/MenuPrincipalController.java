@@ -106,7 +106,7 @@ public class MenuPrincipalController implements Initializable {
 
 	@FXML
 	void pastelesEvent(ActionEvent event) {
-		System.out.println("pastelesEvent ejecutado");
+		MenuPrincipalLogicController.getInstance().irAPasteles();
 	}
 
 	@FXML
