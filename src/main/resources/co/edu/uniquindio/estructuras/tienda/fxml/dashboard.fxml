@@ -50,7 +50,7 @@
                 </effect>
                 <children>
                     <Label text="Total ventas" style="-fx-font-size: 16px; -fx-font-weight: normal; -fx-text-fill: #757575;"/>
-                    <Label fx:id="lblTotalVentas" text="$$ 0,00" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #f44336; -fx-padding: 5 0 0 0;"/>
+                    <Label fx:id="lblTotalVentas" text="\$ 0,00" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #f44336; -fx-padding: 5 0 0 0;"/>
                 </children>
             </VBox>
             <VBox fx:id="boxUsuarios" alignment="CENTER" prefHeight="160.0" prefWidth="240.0"

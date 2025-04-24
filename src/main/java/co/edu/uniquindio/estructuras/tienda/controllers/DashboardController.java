@@ -3,7 +3,6 @@ package co.edu.uniquindio.estructuras.tienda.controllers;
 import co.edu.uniquindio.estructuras.tienda.logiccontrollers.ModelFactoryController;
 import co.edu.uniquindio.estructuras.tienda.model.Producto;
 import co.edu.uniquindio.estructuras.tienda.model.Venta;
-import co.edu.uniquindio.estructuras.tienda.model.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

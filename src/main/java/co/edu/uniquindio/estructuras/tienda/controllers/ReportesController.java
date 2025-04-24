@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import co.edu.uniquindio.estructuras.tienda.logiccontrollers.ModelFactoryController;
 import co.edu.uniquindio.estructuras.tienda.model.Producto;
 import co.edu.uniquindio.estructuras.tienda.model.Venta;
-import co.edu.uniquindio.estructuras.tienda.model.DetalleVenta;
 
 import org.xhtmlrenderer.pdf.ITextRenderer;
 

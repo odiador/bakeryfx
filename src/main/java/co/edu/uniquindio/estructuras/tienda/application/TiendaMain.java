@@ -25,12 +25,6 @@ public class TiendaMain extends Application {
 		stage.setMinHeight(405);
 		stage.setScene(scene);
 		stage.show();
-		try {
-			new ProductoPanaderiaTest().agregarProductosPanaderiaConModelFactory();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public static void cambiarAVistaMenuPrincipal() {

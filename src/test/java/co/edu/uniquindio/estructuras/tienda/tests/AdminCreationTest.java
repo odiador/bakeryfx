@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class AdminCreationTest {
 
-    //@Test
+    @Test
     public void crearAdministradorTest() throws Exception {
         ModelFactoryController model = ModelFactoryController.getInstance();
         String correo = "arroa03@gmail.com";
