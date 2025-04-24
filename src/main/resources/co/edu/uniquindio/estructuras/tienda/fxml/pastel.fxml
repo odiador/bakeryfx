@@ -6,7 +6,12 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.SVGPath?>
 
@@ -14,43 +19,101 @@
    <children>
       <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
          <children>
-            <VBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding: 20;">
-               <children>
-                  <Label text="Cantidad de pisos:" />
-                  <ComboBox fx:id="comboPisos" />
-                  <!-- Piso 1 -->
-                  <Label text="Piso 1" />
-                  <VBox>
-                     <children>
-                        <CheckBox fx:id="checkEstrellas1" text="Con estrellas" />
-                        <Label text="Color pastel:" />
-                        <ComboBox fx:id="colorPastel1" />
-                        <Label text="Color estrellas:" />
-                        <ComboBox fx:id="colorEstrellas1" />
-                     </children>
-                  </VBox>
-                  <!-- Piso 2 -->
-                  <Label text="Piso 2" />
-                  <VBox>
-                     <children>
-                        <CheckBox fx:id="checkEstrellas2" text="Con estrellas" />
-                        <Label text="Color pastel:" />
-                        <ComboBox fx:id="colorPastel2" />
-                        <Label text="Color estrellas:" />
-                        <ComboBox fx:id="colorEstrellas2" />
-                     </children>
-                  </VBox>
-                  <!-- Piso 3 -->
-                  <Label text="Piso 3" />
-                  <HBox spacing="5.0">
-                     <CheckBox fx:id="checkEstrellas3" text="Con estrellas" />
-                     <Label text="Color pastel:" />
-                     <ComboBox fx:id="colorPastel3" />
-                     <Label text="Color estrellas:" />
-                     <ComboBox fx:id="colorEstrellas3" />
-                  </HBox>
-               </children>
+            <VBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding: 10;">
+                <children>
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label text="Cantidad de pisos:" />
+                        <ComboBox fx:id="comboPisos" />
+                    </HBox>
+                    
+                    <TabPane tabClosingPolicy="UNAVAILABLE">
+                        <tabs>
+                            <!-- Piso 1 -->
+                            <Tab text="Piso 1">
+                                <content>
+                                    <GridPane hgap="10" vgap="5">
+                                        <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                                        <children>
+                                            <CheckBox fx:id="checkEstrellas1" text="Con estrellas" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+                                            
+                                            <Label text="Color pastel:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <ComboBox fx:id="colorPastel1" prefWidth="120" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            
+                                            <Label text="Color estrellas:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                            <ComboBox fx:id="colorEstrellas1" prefWidth="120" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                    </GridPane>
+                                </content>
+                            </Tab>
+                            
+                            <!-- Piso 2 -->
+                            <Tab text="Piso 2">
+                                <content>
+                                    <GridPane hgap="10" vgap="5">
+                                        <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                                        <children>
+                                            <CheckBox fx:id="checkEstrellas2" text="Con estrellas" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+                                            
+                                            <Label text="Color pastel:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <ComboBox fx:id="colorPastel2" prefWidth="120" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            
+                                            <Label text="Color estrellas:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                            <ComboBox fx:id="colorEstrellas2" prefWidth="120" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                    </GridPane>
+                                </content>
+                            </Tab>
+                            
+                            <!-- Piso 3 -->
+                            <Tab text="Piso 3">
+                                <content>
+                                    <GridPane hgap="10" vgap="5">
+                                        <padding><Insets bottom="10" left="10" right="10" top="10" /></padding>
+                                        <children>
+                                            <CheckBox fx:id="checkEstrellas3" text="Con estrellas" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+                                            
+                                            <Label text="Color pastel:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                            <ComboBox fx:id="colorPastel3" prefWidth="120" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            
+                                            <Label text="Color estrellas:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                            <ComboBox fx:id="colorEstrellas3" prefWidth="120" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints />
+                                    <ColumnConstraints />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                    </GridPane>
+                                </content>
+                            </Tab>
+                        </tabs>
+                    </TabPane>
+                </children>
             </VBox>
+            
+            <!-- Vista previa del pastel (sin cambios) -->
             <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: black; -fx-background-radius: 16;">
                <children>
                   <Group>
@@ -75,4 +138,7 @@
       </HBox>
       <Button mnemonicParsing="false" onAction="#agregarAlCarritoEvent" text="Agregar al Carrito" />
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </VBox>

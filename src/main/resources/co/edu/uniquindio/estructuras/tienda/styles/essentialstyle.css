@@ -242,3 +242,58 @@
     -fx-font-size: 14px;
     -fx-font-family: 'Segoe UI', sans-serif;
 }
+
+/* ---- Estilos para TabPane y Tab ---- */
+.tab-pane {
+    -fx-background-color: #fff;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #cccccc;
+    -fx-padding: 8 8 8 8;
+}
+
+.tab-pane .tab-header-area {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 8 0;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #f5f5ff;
+    -fx-background-radius: 8 8 0 0;
+    -fx-border-radius: 8 8 0 0;
+    -fx-padding: 7 18 7 18;
+    -fx-font-size: 15px;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-text-fill: #606c74;
+    -fx-border-color: transparent transparent #cccccc transparent;
+    -fx-border-width: 0 0 2px 0;
+    -fx-effect: null;
+    -fx-cursor: hand;
+    -fx-transition: background-color 0.2s;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #e6e6ff;
+    -fx-text-fill: #1a80e6;
+}
+
+.tab-pane .tab:selected {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-effect: null;
+    -fx-background-color: #b6b6ff;
+    -fx-text-fill: #1a80e6;
+    -fx-border-color: transparent transparent #1a80e6 transparent;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab-content-area {
+    -fx-background-color: #f9f9ff;
+    -fx-background-radius: 0 0 12 12;
+    -fx-border-radius: 0 0 12 12;
+    -fx-padding: 18 15 15 15;
+}
