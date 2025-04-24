@@ -27,6 +27,7 @@ public class ActualizarClienteLogicController {
 	}
 
 	private Image image;
+private String imagePath;
 
 	public void setCliente(Cliente c, Label lblIdentificacion, TextField tfDireccion, TextField tfNombre,
 			ImageView imgviewCliente) {
@@ -34,7 +35,8 @@ public class ActualizarClienteLogicController {
 		tfDireccion.setText(c.getDireccion());
 		tfNombre.setText(c.getNombre());
 		this.image = c.getImageFX();
-		imgviewCliente.setImage(c.getImageFX());
+		imgviewCliente.setImage(this.image);
+		this.imagePath = c.getRutaImagen(); // Por defecto la actualFX());
 	}
 
 	public void seleccionarImgAction(ImageView imgviewCliente) {
@@ -45,11 +47,10 @@ public class ActualizarClienteLogicController {
 				InputStream targetStream = new DataInputStream(new FileInputStream(selectedFile));
 				image = new Image(targetStream);
 				imgviewCliente.setImage(image);
-
+				imagePath = selectedFile.getAbsolutePath();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 
@@ -59,7 +60,7 @@ public class ActualizarClienteLogicController {
 
 	public void actualizarAction(String identificacion, String direccion, String nombre, Runnable runnableCerrar) {
 		try {
-			ModelFactoryController.getInstance().actualizarCliente(identificacion, direccion, nombre, image);
+			ModelFactoryController.getInstance().actualizarCliente(identificacion, direccion, nombre, imagePath);
 			runnableCerrar.run();
 			GestionClientesLogicController.getInstance().regenerarLista();
 			new Alert(AlertType.INFORMATION, "El cliente se ha actualizado con éxito").show();

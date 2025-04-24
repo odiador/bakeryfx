@@ -12,4 +12,9 @@ public enum Rol {
         this.nombre = nombre;
     }
 
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
 }

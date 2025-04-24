@@ -213,4 +213,10 @@ public class DataService {
 		ClienteDao.getIntance().saveData(tienda.getMapClientes());
 	}
 
+	public void actualizarUsuario(Usuario usuario) {
+		leerUsuarios();
+		tienda.getMapUsuarios().put(usuario.getCorreo(), usuario);
+		UsuarioDao.getInstance().saveData(tienda.getMapUsuarios());
+	}
+
 }

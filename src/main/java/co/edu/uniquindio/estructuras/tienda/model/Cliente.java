@@ -54,17 +54,44 @@ public class Cliente implements Imagenable, Serializable {
 	private ArrayList<CarritoCompras> carrito = new ArrayList<CarritoCompras>();
 
 	/**
-	 * Guarda la imagen en la carpeta images/ y almacena la ruta relativa.
+	 * Guarda la imagen en la carpeta userimages/ y almacena la ruta relativa.
 	 * 
-	 * @param archivoImagen El archivo original seleccionado por el usuario.
+	 * @param rutaImagen Ruta original seleccionada por el usuario (puede ser file:
+	 *                   o ruta local).
 	 * @throws IOException Si ocurre un error al copiar el archivo.
 	 */
-	public void setImagen(java.io.File archivoImagen) throws IOException {
+	public void setImagen(String rutaImagen) throws IOException {
+		if (rutaImagen == null || rutaImagen.trim().isEmpty()) {
+			throw new IOException("La ruta de la imagen es nula o vacía.");
+		}
+		java.io.File archivoImagen;
+		if (rutaImagen.startsWith("file:")) {
+			try {
+				archivoImagen = new java.io.File(new java.net.URI(rutaImagen.replace("\\", "/")));
+			} catch (Exception e) {
+				throw new IOException("No se pudo convertir la URL de la imagen a archivo local.", e);
+			}
+		} else {
+			archivoImagen = new java.io.File(rutaImagen);
+		}
+		if (!archivoImagen.exists()) {
+			throw new IOException("El archivo de imagen no existe: " + archivoImagen.getAbsolutePath());
+		}
 		String extension = archivoImagen.getName().substring(archivoImagen.getName().lastIndexOf('.'));
-		String nombreDestino = "images/" + java.util.UUID.randomUUID() + extension;
+		String nombreDestino = "userimages/" + java.util.UUID.randomUUID() + extension;
 		java.nio.file.Path destino = java.nio.file.Paths.get(nombreDestino);
-		java.nio.file.Files.copy(archivoImagen.toPath(), destino, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-		this.rutaImagen = nombreDestino;
+		try {
+			java.nio.file.Files.createDirectories(destino.getParent());
+			java.nio.file.Files.copy(archivoImagen.toPath(), destino,
+					java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			this.rutaImagen = nombreDestino;
+		} catch (IOException ex) {
+			throw new IOException(
+					"No se pudo copiar la imagen.\nOrigen: " + archivoImagen.getAbsolutePath() +
+							"\nDestino: " + destino.toAbsolutePath() +
+							"\nCausa: " + ex.getMessage(),
+					ex);
+		}
 	}
 
 	public Image getImagenFX() {

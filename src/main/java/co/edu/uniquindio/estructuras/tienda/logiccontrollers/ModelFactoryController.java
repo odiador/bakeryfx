@@ -57,15 +57,19 @@ public class ModelFactoryController {
 		return instance;
 	}
 
-	public void agregarCliente(String id, String direccion, String nombre, Image image)
+	public void agregarCliente(String id, String direccion, String nombre, String rutaImagen)
 			throws CampoVacioException, ElementoNuloException, ElementoDuplicadoException, CampoInvalidoException {
 		if (id.trim().isBlank() || direccion.trim().isBlank() || nombre.trim().isBlank())
 			throw new CampoVacioException("Rellena todos los campos");
-		if (image == null)
+		if (rutaImagen == null || rutaImagen.trim().isEmpty())
 			throw new CampoVacioException("Recuerda seleccionar la imagen");
 		Cliente cliente = Cliente.builder().direccion(direccion).identificacion(id).nombre(nombre).build();
+		try {
+			cliente.setImagen(rutaImagen);
+		} catch (IOException e) {
+			throw new ElementoNuloException("Error al guardar la imagen: " + e.getMessage());
+		}
 		DataService.getInstance().agregarCliente(cliente);
-
 	}
 
 	public void agregarDetalleCarrito(int cant, @NonNull Producto producto)
@@ -263,13 +267,49 @@ public class ModelFactoryController {
 				.collect(Collectors.toCollection(TreeSet::new));
 	}
 
-	public void actualizarCliente(String identificacion, String direccion, String nombre, Image image)
-			throws ElementoNuloException, ElementoNoEncontradoException, IOException {
-		actualizarCliente(Cliente.builder().nombre(nombre).identificacion(identificacion).direccion(direccion)
-				.rutaImagen(image.getUrl()).build());
+	public void actualizarCliente(String identificacion, String direccion, String nombre, String rutaImagen)
+			throws ElementoNoEncontradoException, ElementoNuloException {
+		Cliente cliente = DataService.getInstance().buscarCliente(identificacion);
+		if (cliente == null) {
+			throw new IllegalArgumentException("Cliente no encontrado");
+		}
+		cliente.setDireccion(direccion);
+		cliente.setNombre(nombre);
+		if (rutaImagen != null && !rutaImagen.trim().isEmpty()) {
+			try {
+				cliente.setImagen(rutaImagen);
+			} catch (IOException e) {
+				throw new RuntimeException("Error al guardar la imagen: " + e.getMessage());
+			}
+		}
+		DataService.getInstance().actualizarCliente(cliente);
 	}
 
-	// ==== USUARIO ====
+	public String guardarImagenUsuario(javafx.scene.image.Image image, String correo) {
+		if (image == null || correo == null || correo.trim().isEmpty())
+			return null;
+		try {
+			String userImagesDir = System.getProperty("user.dir") + java.io.File.separator + "userimages"
+					+ java.io.File.separator;
+			java.io.File dir = new java.io.File(userImagesDir);
+			if (!dir.exists())
+				dir.mkdirs();
+			String fileName = correo.replaceAll("[^a-zA-Z0-9]", "_") + ".png";
+			String fullPath = userImagesDir + fileName;
+			java.io.File output = new java.io.File(fullPath);
+			javax.imageio.ImageIO.write(
+					javafx.embed.swing.SwingFXUtils.fromFXImage(image, null),
+					"png", output);
+			return "userimages/" + fileName;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * Método para registrar usuario sin imagen (compatibilidad con pruebas y login)
+	 */
 	public Usuario registrarUsuario(String correo, String nombre, String contrasena, Rol rol, boolean verificado)
 			throws ElementoDuplicadoException, ElementoNuloException {
 		DataService.getInstance().leerUsuarios();
@@ -285,34 +325,19 @@ public class ModelFactoryController {
 		return usuario;
 	}
 
-	/**
-	 * Crea un nuevo usuario en el sistema y lo persiste.
-	 * 
-	 * @param usuario El usuario a crear
-	 */
-	public void crearUsuario(Usuario usuario) {
-		try {
-			DataService.getInstance().leerUsuarios();
-			DataService.getInstance().agregarUsuario(usuario);
-			DataService.getInstance().guardarUsuarios();
-		} catch (Exception e) {
-			// Manejo básico, puedes personalizar según tus necesidades
-			e.printStackTrace();
-		}
+	public void crearUsuario(Usuario usuario) throws ElementoDuplicadoException, ElementoNuloException {
+		DataService.getInstance().leerUsuarios();
+		DataService.getInstance().agregarUsuario(usuario);
+		DataService.getInstance().guardarUsuarios();
+
 	}
 
-	/**
-	 * Actualiza un usuario existente y guarda los cambios en persistencia.
-	 * 
-	 * @param usuario El usuario actualizado
-	 */
-	public void actualizarUsuario(Usuario usuario) {
+	public void actualizarUsuario(Usuario usuario) throws ElementoDuplicadoException, ElementoNuloException {
+
 		DataService.getInstance().leerUsuarios();
-		HashMap<String, Usuario> usuarios = DataService.getInstance().listarUsuarios().stream()
-				.collect(java.util.stream.Collectors.toMap(Usuario::getCorreo, u -> u, (a, b) -> b, HashMap::new));
-		usuarios.put(usuario.getCorreo(), usuario);
-		DataService.getInstance().getTienda().setMapUsuarios(usuarios);
+		DataService.getInstance().actualizarUsuario(usuario);
 		DataService.getInstance().guardarUsuarios();
+
 	}
 
 	/**
@@ -326,7 +351,6 @@ public class ModelFactoryController {
 		DataService.getInstance().getTienda().setMapUsuarios(usuarios);
 		DataService.getInstance().guardarUsuarios();
 	}
-
 
 	public Usuario intentarLoginUsuario(String correo, String contrasena) throws ElementoNoEncontradoException {
 		DataService.getInstance().leerUsuarios();

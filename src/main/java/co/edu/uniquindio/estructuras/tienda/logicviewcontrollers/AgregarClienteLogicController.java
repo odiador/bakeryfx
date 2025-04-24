@@ -21,6 +21,7 @@ import javafx.stage.FileChooser;
 public class AgregarClienteLogicController {
 	public static AgregarClienteLogicController instance;
 	private Image image;
+	private String imagePath;
 
 	public static AgregarClienteLogicController getInstance() {
 		if (instance == null)
@@ -30,7 +31,7 @@ public class AgregarClienteLogicController {
 
 	public void agregarAction(String id, String direccion, String nombre) {
 		try {
-			ModelFactoryController.getInstance().agregarCliente(id, direccion, nombre, image);
+			ModelFactoryController.getInstance().agregarCliente(id, direccion, nombre, imagePath);
 			new Alert(AlertType.CONFIRMATION, String.format("El cliente %s ha sido registrado con éxito", nombre))
 					.show();
 		} catch (CampoVacioException | ElementoNuloException | ElementoDuplicadoException | CampoInvalidoException e) {
@@ -46,11 +47,10 @@ public class AgregarClienteLogicController {
 				InputStream targetStream = new DataInputStream(new FileInputStream(selectedFile));
 				image = new Image(targetStream);
 				imgviewCliente.setImage(image);
-
+				imagePath = selectedFile.getAbsolutePath();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 
